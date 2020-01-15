@@ -17,7 +17,6 @@ namespace ColonistBarHiding.Patches
 		{
 			if (ColonistBarUtility.IsHidden(colonist))
 			{
-				Log.Message($"Colonist {colonist.Label} was hidden.");
 				return false;
 			}
 			return true;

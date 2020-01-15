@@ -12,19 +12,19 @@ namespace ColonistBarHiding.UI
 	{
 		public override void DoWindowContents(Rect inRect)
 		{
-			var listingStandard = new Listing_Standard();
-			listingStandard.ColumnWidth = inRect.width;
+			var listingStandard = new Listing_Standard
+			{
+				ColumnWidth = inRect.width
+			};
 			listingStandard.Begin(inRect);
 
 			var pawns = ColonistBarUtility.GetColonistBarPawns();
-
 			foreach (var pawn in pawns)
 			{
 				Rect rect = listingStandard.GetRect(24f);
 				DoPawnRow(rect, pawn);
 				listingStandard.Gap(6f);
 			}
-
 			listingStandard.End();
 		}
 
@@ -34,7 +34,9 @@ namespace ColonistBarHiding.UI
 			GUI.BeginGroup(rect);
 			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
 			widgetRow.Gap(4f);
-			float width = rect.width - widgetRow.FinalX - 4f - Text.CalcSize("Restore".Translate()).x - 16f - 4f - Text.CalcSize("InvertArea".Translate()).x - 16f - 4f - 24f;
+
+			// TODO fix this...
+			float width = rect.width - widgetRow.FinalX - 4f - Text.CalcSize("Restore".Translate()).x - 16f - 4f - Text.CalcSize("Restore".Translate()).x - 16f - 4f - 24f;
 			widgetRow.Label(pawn.Label, width);
 
 			if (ColonistBarUtility.IsHidden(pawn))

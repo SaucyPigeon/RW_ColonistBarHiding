@@ -21,7 +21,6 @@ namespace ColonistBarHiding.Patches
 		{
 			if (eventData.RightMouseButton() && Mouse.IsOver(rect))
 			{
-				Log.Message("SP POSTFIX RUNNING");
 				var settings = new FloatMenuOption(
 					"ColonistBarHiding.GetSettings".Translate(),
 					delegate
