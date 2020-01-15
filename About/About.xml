@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Colonist Bar Hiding</name>
+  <author>Saucy_Pigeon</author>
+  <url></url>
+  <description>Allows you to hide colonists from your colonist bar, decreasing clutter.
+How it works:
+- Right click on your colonist bar (even if all colonists have been removed).
+- Click "Manage colonist bar...".
+- Click "Restore" or "Remove" on the appropriate colonist.
+Compatible with save games. Hidden colonists are saved, even if you disable the mod between saves.
+</description>
+  <supportedVersions>
+    <li>1.0</li>
+  </supportedVersions>
+</ModMetaData>
