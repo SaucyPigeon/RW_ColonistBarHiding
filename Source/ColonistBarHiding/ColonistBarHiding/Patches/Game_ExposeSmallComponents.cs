@@ -15,7 +15,12 @@ namespace ColonistBarHiding.Patches
 		[HarmonyPrefix]
 		private static void Prefix()
 		{
-			Scribe_Deep.Look<HiddenPawnTracker>(ref ColonistBarUtility.HiddenPawnTracker, "hiddenPawnTracker", new object[0]);
+			if (ColonistBarUtility.HiddenPawnTracker == null)
+			{
+				ColonistBarUtility.HiddenPawnTracker = new HiddenPawnTracker();
+			}
+			const bool saveDestroyedThings = false;
+			Scribe_Deep.Look<HiddenPawnTracker>(ref ColonistBarUtility.HiddenPawnTracker, saveDestroyedThings, "hiddenPawnTracker", new object[0]);
 		}
 	}
 }

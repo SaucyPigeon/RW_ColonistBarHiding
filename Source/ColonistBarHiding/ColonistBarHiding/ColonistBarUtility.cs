@@ -33,6 +33,11 @@ namespace ColonistBarHiding
 
 		public static bool IsHidden(Pawn pawn)
 		{
+			// Fix bug where HiddenPawnTracker==null if item within is detroyed between saves without mod.
+			if (HiddenPawnTracker == null)
+			{
+				HiddenPawnTracker = new HiddenPawnTracker();
+			}
 			return HiddenPawnTracker.IsHidden(pawn);
 		}
 	}
