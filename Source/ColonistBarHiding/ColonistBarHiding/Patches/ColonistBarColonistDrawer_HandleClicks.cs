@@ -7,6 +7,12 @@ using ColonistBarHiding.UI;
 
 namespace ColonistBarHiding.Patches
 {
+	/// <summary>
+	/// Patch for ColonistBarColonistDrawer.HandleClicks(), which handles
+	/// clicks on the colonist bar UI. This patch adds a right-click floating
+	/// menu, where the user can access a menu to manage which colonists are
+	/// hidden.
+	/// </summary>
 	[HarmonyPatch(typeof(ColonistBarColonistDrawer))]
 	[HarmonyPatch("HandleClicks")]
 	internal class ColonistBarColonistDrawer_HandleClicks
@@ -17,6 +23,12 @@ namespace ColonistBarHiding.Patches
 		/// </summary>
 		private static EventData eventData;
 
+		/// <summary>
+		/// Handle a right-click on the colonist bar UI, and show a
+		/// floating-menu option for managing hidden colonists.
+		/// </summary>
+		/// <param name="rect">The rect of the colonist on the colonist bar.</param>
+		/// <param name="colonist">The colonist on the colonist bar.</param>
 		private static void HandleRightClick(Rect rect, Pawn colonist)
 		{
 			if (eventData.RightMouseButton() && Mouse.IsOver(rect))

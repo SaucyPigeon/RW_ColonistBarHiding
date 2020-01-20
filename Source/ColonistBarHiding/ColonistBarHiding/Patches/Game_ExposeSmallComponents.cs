@@ -8,6 +8,11 @@ using Harmony;
 
 namespace ColonistBarHiding.Patches
 {
+	/// <summary>
+	/// Patch for Game.ExposeSmallComponents(), which deals with saving and
+	/// loading of game-specific data. This patch adds support for tracking
+	/// which colonists are hidden between saves.
+	/// </summary>
 	[HarmonyPatch(typeof(Game))]
 	[HarmonyPatch("ExposeSmallComponents")]
 	internal class Game_ExposeSmallComponents

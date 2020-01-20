@@ -11,16 +11,26 @@ namespace ColonistBarHiding
 	/// </summary>
 	class EventData
 	{
+		/// <summary>
+		/// The type of the event.
+		/// </summary>
 		public EventType Type
 		{
 			get;
 		}
 
+		/// <summary>
+		/// The button of the event.
+		/// </summary>
 		public int Button
 		{
 			get;
 		}
 
+		/// <summary>
+		/// Checks if the right mouse button is pressed during the event.
+		/// </summary>
+		/// <returns>True if the right mouse button is pressed, false otherwise.</returns>
 		public bool RightMouseButton()
 		{
 			return Type == EventType.MouseDown && Button == 1;

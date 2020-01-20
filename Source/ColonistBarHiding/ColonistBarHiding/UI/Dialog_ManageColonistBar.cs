@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace ColonistBarHiding.UI
 {
+	/// <summary>
+	/// A UI dialog for managing the colonist bar, specifically for marking
+	/// and unmarking which colonists are hidden.
+	/// </summary>
 	public class Dialog_ManageColonistBar : Window
 	{
 		public override void DoWindowContents(Rect inRect)

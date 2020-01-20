@@ -8,6 +8,11 @@ using Harmony;
 
 namespace ColonistBarHiding.Patches
 {
+	/// <summary>
+	/// Patch for ColonistBarColonistDrawer.DrawColonist(), which deals with
+	/// drawing colonists on the colonist bar. This patch makes colonists that
+	/// are marked as hidden to not be shown on the colonist bar.
+	/// </summary>
 	[HarmonyPatch(typeof(ColonistBarColonistDrawer))]
 	[HarmonyPatch("DrawColonist")]
 	class ColonistBarColonistDrawer_DrawColonist

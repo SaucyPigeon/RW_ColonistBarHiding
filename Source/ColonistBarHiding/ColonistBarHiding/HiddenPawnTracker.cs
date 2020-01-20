@@ -14,21 +14,37 @@ namespace ColonistBarHiding
 	{
 		private List<Pawn> pawns;
 
+		/// <summary>
+		/// The pawns marked as hidden.
+		/// </summary>
 		public List<Pawn> Pawns
 		{
 			get { return pawns; }
 		}
 
+		/// <summary>
+		/// Checks if the given pawn is hidden.
+		/// </summary>
+		/// <param name="pawn">The pawn to check.</param>
+		/// <returns>True if the pawn is hidden, false otherwise.</returns>
 		public bool IsHidden(Pawn pawn)
 		{
 			return Pawns.Contains(pawn);
 		}
 
+		/// <summary>
+		/// Hides the pawn.
+		/// </summary>
+		/// <param name="pawn">The pawn to hide.</param>
 		public void Hide(Pawn pawn)
 		{
 			Pawns.Add(pawn);
 		}
 
+		/// <summary>
+		/// Shows the pawn.
+		/// </summary>
+		/// <param name="pawn">The pawn to show.</param>
 		public void Show(Pawn pawn)
 		{
 			if (!IsHidden(pawn))
