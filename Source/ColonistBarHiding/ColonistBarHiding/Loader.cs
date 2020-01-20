@@ -6,6 +6,7 @@ using Harmony;
 using System.Reflection;
 using RimWorld;
 using Verse;
+using UnityEngine;
 
 namespace ColonistBarHiding
 {
@@ -17,6 +18,9 @@ namespace ColonistBarHiding
 	{
 		static Loader()
 		{
+			const bool debug = false;
+			HarmonyInstance.DEBUG = debug;
+
 			// Load harmony
 			const string id = "uk.saucypigeon.rimworld.mod.colonistbarhiding";
 			var harmony = HarmonyInstance.Create(id);

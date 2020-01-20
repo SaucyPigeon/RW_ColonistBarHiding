@@ -54,6 +54,18 @@ namespace ColonistBarHiding
 			Pawns.Remove(pawn);
 		}
 
+		/// <summary>
+		/// Gets the amount of hidden pawns.
+		/// </summary>
+		public int HiddenCount
+		{
+			get
+			{
+				return Pawns.Count;
+			}
+		}
+
+
 		public void ExposeData()
 		{
 			Scribe_Collections.Look(ref pawns, "hiddenPawns", LookMode.Reference);
