@@ -33,7 +33,7 @@ namespace ColonistBarHiding.Patches.ColonistBarColonistDrawer
 		/// <param name="colonist">The colonist on the colonist bar.</param>
 		private static void HandleRightClick(Rect rect, Pawn colonist)
 		{
-			if (eventData.RightMouseButton() && Mouse.IsOver(rect))
+			if (eventData.RightMouseButtonReleased() && Mouse.IsOver(rect))
 			{
 				var settings = new FloatMenuOption(
 					"ColonistBarHiding.GetSettings".Translate(),
