@@ -26,6 +26,7 @@ namespace ColonistBarHiding.Patches.ColonistBar
 			{
 				var colonistBar = Find.ColonistBar;
 				var entries = colonistBar.Entries;
+				// Possible bug if entries and draw locs do not line up
 				//if (entries.Count != colonistBar.DrawLocs.Count)
 				//{
 				//	throw new InvalidOperationException(
@@ -86,14 +87,14 @@ namespace ColonistBarHiding.Patches.ColonistBar
 				int reorderableGroup = -1;
 				for (int i = 0; i < colonistBar.DrawLocs.Count; i++)
 				{
-					Rect rect = new Rect(colonistBar.DrawLocs[i].x, colonistBar.DrawLocs[i].y, colonistBar.Size.x, colonistBar.Size.y);
-					ColonistBar.Entry entry = entries[i];
+					var rect = ColonistBarUtility.GetRect(i);
+					var entry = entries[i];
 
 					bool isDifferentGroup = currentGroup != entry.group;
 					currentGroup = entry.group;
 					if (isDifferentGroup)
 					{
-						reorderableGroup = GetReorderableGroup(colonistBar, entry, cachedEntries);
+						reorderableGroup = GetReorderableGroup(colonistBar, entry, entries);
 					}
 					bool reordering;
 					if (entry.pawn != null)

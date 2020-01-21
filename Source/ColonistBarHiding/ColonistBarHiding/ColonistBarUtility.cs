@@ -262,6 +262,35 @@ namespace ColonistBarHiding
 			MainTabWindowUtility.NotifyAllPawnTables_PawnsChanged();
 		}
 
+		/// <summary>
+		/// Gets the pawn at the given index of the list of entries.
+		/// </summary>
+		/// <param name="index">The target index.</param>
+		/// <param name="entryGroup">The entry group of the pawn.</param>
+		/// <param name="entries">The entries to search.</param>
+		/// <param name="pawn">The pawn at the given index.</param>
+		/// <param name="vector">The draw location vector of the pawn.</param>
+		public static void GetPawnAtIndex(int index, int entryGroup, List<ColonistBar.Entry> entries, out Pawn pawn, out Vector2 vector)
+		{
+			pawn = default;
+			vector = default;
+			int i = 0;
+
+			foreach (var entry in entries)
+			{
+				if (entry.group == entryGroup && entry.pawn != null)
+				{
+					if (i == index)
+					{
+						pawn = entry.pawn;
+						vector = Find.ColonistBar.DrawLocs[i];
+						break;
+					}
+				}
+				i++;
+			}
+		}
+
 		// Modified private method ColonistBar.DrawColonistMouseAttachment()
 		/// <summary>
 		/// Draws the mouse attachment for the colonist at the given index.
@@ -272,25 +301,14 @@ namespace ColonistBarHiding
 		/// <param name="cachedEntries">The cached entries of the colonist bar.</param>
 		public static void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup, List<ColonistBar.Entry> cachedEntries)
 		{
-			Pawn pawn = null;
-			Vector2 vector = default(Vector2);
-			int num = 0;
-			for (int i = 0; i < cachedEntries.Count; i++)
-			{
-				if (cachedEntries[i].group == entryGroup && cachedEntries[i].pawn != null)
-				{
-					if (num == index)
-					{
-						pawn = cachedEntries[i].pawn;
-						vector = Find.ColonistBar.DrawLocs[i];
-						break;
-					}
-					num++;
-				}
-			}
+			GetPawnAtIndex(index, entryGroup, cachedEntries, out Pawn pawn, out Vector2 vector);
+
 			if (pawn != null)
 			{
-				RenderTexture renderTexture = PortraitsCache.Get(pawn, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
+				RenderTexture renderTexture = PortraitsCache.Get(
+					pawn, ColonistBarColonistDrawer.PawnTextureSize,
+					ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
+
 				var size = Find.ColonistBar.Size;
 				Rect rect = new Rect(vector.x, vector.y, size.x, size.y);
 				Rect pawnTextureRect = Find.ColonistBar.drawer.GetPawnTextureRect(rect.position);
@@ -324,6 +342,18 @@ namespace ColonistBarHiding
 			}
 			entry = default(ColonistBar.Entry);
 			return false;
+		}
+
+		/// <summary>
+		/// Gets the rect for the given index of the colonist bar.
+		/// </summary>
+		/// <param name="index">The index for which to get the rect.</param>
+		/// <returns>The rect of the index.</returns>
+		public static Rect GetRect(int index)
+		{
+			var drawLoc = Find.ColonistBar.DrawLocs[index];
+			var size = Find.ColonistBar.Size;
+			return new Rect(drawLoc, size);
 		}
 	}
 }
