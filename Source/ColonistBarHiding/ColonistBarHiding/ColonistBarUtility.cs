@@ -83,20 +83,18 @@ namespace ColonistBarHiding
 		/// <returns>The amount of groups in the colonist bar.</returns>
 		public static int CalculateGroupsCount()
 		{
-			List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
+			//List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
+			var entries = GetVisibleEntries();
 			int currentGroup = -1;
 			int groupsCount = 0;
 
 			foreach (var entry in entries)
 			{
-				//if (!IsHidden(entry))
-				//{
-					if (currentGroup != entry.group)
-					{
-						groupsCount++;
-						currentGroup = entry.group;
-					}
-				//}
+				if (currentGroup != entry.group)
+				{
+					groupsCount++;
+					currentGroup = entry.group;
+				}
 			}
 			return groupsCount;
 		}
@@ -286,6 +284,31 @@ namespace ColonistBarHiding
 				Rect? customRect = new Rect?(pawnTextureRect);
 				GenUI.DrawMouseAttachment(iconTex, string.Empty, 0f, default(Vector2), customRect);
 			}
+		}
+
+		// Modified public method ColonistBar.TryGetEntryAt()
+		/// <summary>
+		/// Tries to get the colonist bar entry at the given position.
+		/// </summary>
+		/// <param name="pos">The target position.</param>
+		/// <param name="entry">The result of the search.</param>
+		/// <returns>True if successful, otherwise false.</returns>
+		public static bool TryGetEntryAt(Vector2 pos, out ColonistBar.Entry entry)
+		{
+			List<Vector2> drawLocs = Find.ColonistBar.DrawLocs;
+			var entries = ColonistBarUtility.GetVisibleEntries();
+			Vector2 size = Find.ColonistBar.Size;
+			for (int i = 0; i < drawLocs.Count; i++)
+			{
+				Rect rect = new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y);
+				if (rect.Contains(pos))
+				{
+					entry = entries[i];
+					return true;
+				}
+			}
+			entry = default(ColonistBar.Entry);
+			return false;
 		}
 	}
 }

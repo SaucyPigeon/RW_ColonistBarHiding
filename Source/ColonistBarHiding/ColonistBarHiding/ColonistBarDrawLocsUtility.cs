@@ -89,10 +89,12 @@ namespace ColonistBarHiding
 			horizontalSlotsPerGroup = new List<int>();
 
 			int groupsCount = ColonistBarUtility.CalculateGroupsCount();
+
 			for (int i = 0; i < groupsCount; i++)
 			{
 				horizontalSlotsPerGroup.Add(0);
 			}
+
 			GenMath.DHondtDistribution(horizontalSlotsPerGroup, (int i) => (float)entriesInGroup[i], maxPerGlobalRow);
 			for (int i = 0; i < horizontalSlotsPerGroup.Count; i++)
 			{
