@@ -51,26 +51,18 @@ namespace ColonistBarHiding
 		/// <returns>A list indexed by group, containing the amount of entries for that group.</returns>
 		public static List<int> GetGroupEntryCounts()
 		{
-			var list = new List<int>();
-			List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
-			int groupsCount = ColonistBarUtility.CalculateGroupsCount();
-			for (int i = 0; i < groupsCount; i++)
+			var entries = ColonistBarUtility.GetVisibleEntries();
+			var totalGroupsCount = ColonistBarUtility.GetTotalGroupsCount();
+
+			var list = new List<int>(totalGroupsCount);
+			for (int i = 0; i < totalGroupsCount; i++)
 			{
 				list.Add(0);
 			}
-
 			foreach (var entry in entries)
 			{
-				if (!ColonistBarUtility.IsHidden(entry))
-				{
-					//List<int> list;
-					//int group;
-					// Not my fault...
-					//(list = entriesInGroup)[group = entry.group] = list[group] + 1;
-
-					int group = entry.group;
-					list[group]++;
-				}
+				int group = entry.group;
+				list[group]++;
 			}
 			return list;
 		}
@@ -88,7 +80,7 @@ namespace ColonistBarHiding
 		{
 			horizontalSlotsPerGroup = new List<int>();
 
-			int groupsCount = ColonistBarUtility.CalculateGroupsCount();
+			int groupsCount = ColonistBarUtility.GetVisibleGroupsCount();
 
 			for (int i = 0; i < groupsCount; i++)
 			{
@@ -129,14 +121,13 @@ namespace ColonistBarHiding
 		public static float GetBestScale(List<int> entriesInGroup, out bool onlyOneRow, out int maxPerGlobalRow, out List<int> horizontalSlotsPerGroup)
 		{
 			float bestScale = 1f;
-			//List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
 			var entries = ColonistBarUtility.GetVisibleEntries();
-			int groupsCount = ColonistBarUtility.CalculateGroupsCount();
+			int groupsCount = ColonistBarUtility.GetVisibleGroupsCount();
 			while (true)
 			{
-				float num3 = (ColonistBar.BaseSize.x + 24f) * bestScale;
+				float colonistBarWidth = (ColonistBar.BaseSize.x + 24f) * bestScale;
 				float num4 = MaxColonistBarWidth - (float)(groupsCount - 1) * 25f * bestScale;
-				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
+				maxPerGlobalRow = Mathf.FloorToInt(num4 / colonistBarWidth);
 				onlyOneRow = true;
 				bool result = TryDistributeHorizontalSlotsBetweenGroups(
 					maxPerGlobalRow, entriesInGroup, out horizontalSlotsPerGroup);
@@ -151,14 +142,16 @@ namespace ColonistBarHiding
 						if (currentGroup != entry.group)
 						{ 
 							currentGroup = entry.group;
-							int num6 = Mathf.CeilToInt(
-								(float)entriesInGroup[entry.group] / (float)horizontalSlotsPerGroup[entry.group]
+
+							int rowCount = Mathf.CeilToInt(
+								(float)entriesInGroup[entry.group] / (float)horizontalSlotsPerGroup[ColonistBarUtility.GetGroupRelativeToVisible(entry.group)]
 								);
-							if (num6 > 1)
+
+							if (rowCount > 1)
 							{
 								onlyOneRow = false;
 							}
-							if (num6 > allowedRowsCountForScale)
+							if (rowCount > allowedRowsCountForScale)
 							{
 								flag = false;
 								break;
@@ -187,20 +180,42 @@ namespace ColonistBarHiding
 		/// <param name="entriesInGroup">The amount of entries for a given group.</param>
 		/// <param name="horizontalSlotsPerGroup">The amount of horizontal slots for a given group.</param>
 		/// <returns>The drawing location for a given entry.</returns>
-		private static Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int positionInGroup, float scale, List<int> entriesInGroup, List<int> horizontalSlotsPerGroup)
+		public static Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int positionInGroup, float scale, List<int> entriesInGroup, List<int> horizontalSlotsPerGroup)
 		{
-			int horizonalSlot = horizontalSlotsPerGroup[group];
+			int horizontalSlot = horizontalSlotsPerGroup[ColonistBarUtility.GetGroupRelativeToVisible(group)];
+
+			if (horizontalSlot == 0)
+			{
+				throw new ArgumentException("Horizontal slot cannot be equal to zero.");
+			}
 			int entryCountInGroup = entriesInGroup[group];
 
-			float x = groupStartX + (float)(positionInGroup % horizonalSlot) * scale * (ColonistBar.BaseSize.x + 24f);
-			float y = groupStartY + (float)(positionInGroup / horizonalSlot) * scale * (ColonistBar.BaseSize.y + 32f);
+			float x = groupStartX + (float)(positionInGroup % horizontalSlot) * scale * (ColonistBar.BaseSize.x + 24f);
+			float y = groupStartY + (float)(positionInGroup / horizontalSlot) * scale * (ColonistBar.BaseSize.y + 32f);
 
-			if (positionInGroup >= entryCountInGroup - (entryCountInGroup % horizonalSlot))
+			if (positionInGroup >= entryCountInGroup - (entryCountInGroup % horizontalSlot))
 			{
-				int num2 = horizonalSlot - entryCountInGroup % horizonalSlot;
+				int num2 = horizontalSlot - entryCountInGroup % horizontalSlot;
 				x += (float)num2 * scale * (ColonistBar.BaseSize.x + 24f) * 0.5f;
 			}
 			return new Vector2(x, y);
+		}
+
+		/// <summary>
+		/// Flattens the horizontal slots to the lowest between itself and
+		/// relevant counts of entries for a group.
+		/// </summary>
+		/// <param name="entriesInGroup">The amount of entries per group.</param>
+		/// <param name="horizontalSlotsPerGroup">The amount of horizontal slots per group.</param>
+		public static void FlattenHorizontalSlots(List<int> entriesInGroup, List<int> horizontalSlotsPerGroup)
+		{
+			var visibleGroups = ColonistBarUtility.GetVisibleGroups();
+
+			foreach (var visibleGroup in visibleGroups)
+			{
+				int index = ColonistBarUtility.GetGroupRelativeToVisible(visibleGroup);
+				horizontalSlotsPerGroup[index] = Mathf.Min(horizontalSlotsPerGroup[index], entriesInGroup[visibleGroup]);
+			}
 		}
 
 		// Modified private method ColonistBarDrawLocsFinder.CalculateDrawLocs()
@@ -224,14 +239,11 @@ namespace ColonistBarHiding
 			int entriesCount = maxPerGlobalRow;
 			if (onlyOneRow)
 			{
-				for (int i = 0; i < horizontalSlotsPerGroup.Count; i++)
-				{
-					horizontalSlotsPerGroup[i] = Mathf.Min(horizontalSlotsPerGroup[i], entriesInGroup[i]);
-				}
+				FlattenHorizontalSlots(entriesInGroup, horizontalSlotsPerGroup);
 				entriesCount = ColonistBarUtility.GetVisibleEntriesCount();
 			}
 
-			int groupsCount = ColonistBarUtility.CalculateGroupsCount();
+			int groupsCount = ColonistBarUtility.GetVisibleGroupsCount();
 			float num3 = (ColonistBar.BaseSize.x + 24f) * scale;
 			float num4 = (float)entriesCount * num3 + (float)(groupsCount - 1) * 25f * scale;
 

@@ -21,7 +21,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		[HarmonyPrefix]
 		private static bool Prefix(int __result)
 		{
-			__result = ColonistBarUtility.CalculateGroupsCount();
+			__result = ColonistBarUtility.GetVisibleGroupsCount();
 			return false;
 		}
 	}

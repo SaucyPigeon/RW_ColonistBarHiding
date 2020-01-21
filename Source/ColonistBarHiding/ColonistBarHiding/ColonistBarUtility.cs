@@ -91,10 +91,10 @@ namespace ColonistBarHiding
 		}
 
 		/// <summary>
-		/// Calculates the amount of groups for the colonist bar.
+		/// Calculates the amount of visible groups for the colonist bar.
 		/// </summary>
-		/// <returns>The amount of groups in the colonist bar.</returns>
-		public static int CalculateGroupsCount()
+		/// <returns>The amount of visible groups in the colonist bar.</returns>
+		public static int GetVisibleGroupsCount()
 		{
 			var entries = GetVisibleEntries();
 			int currentGroup = -1;
@@ -110,6 +110,49 @@ namespace ColonistBarHiding
 			}
 		
 			return groupsCount;
+		}
+
+		/// <summary>
+		/// Calculates the total amount of groups for the colonist bar.
+		/// </summary>
+		/// <returns>The total amount of groups in the colonist bar.</returns>
+		public static int GetTotalGroupsCount()
+		{
+			var entries = Find.ColonistBar.Entries;
+			int currentGroup = -1;
+			int groupsCount = 0;
+
+			foreach (var entry in entries)
+			{
+				if (currentGroup != entry.group)
+				{
+					groupsCount++;
+					currentGroup = entry.group;
+				}
+			}
+
+			return groupsCount;
+		}
+
+		/// <summary>
+		/// Gets groups that are visible on the colonist bar.
+		/// </summary>
+		/// <returns>Groups that are visible on the colonist bar.</returns>
+		public static List<int> GetVisibleGroups()
+		{
+			var entries = GetVisibleEntries();
+			var list = new List<int>();
+			int currentGroup = -1;
+
+			foreach (var entry in entries)
+			{
+				if (currentGroup != entry.group)
+				{
+					list.Add(entry.group);
+					currentGroup = entry.group;
+				}
+			}
+			return list;
 		}
 
 		/// <summary>
@@ -384,6 +427,19 @@ namespace ColonistBarHiding
 			var drawLoc = Find.ColonistBar.DrawLocs[index];
 			var size = Find.ColonistBar.Size;
 			return new Rect(drawLoc, size);
+		}
+
+		/// <summary>
+		/// Gets the given group as an index relative to the groups visible on
+		/// the colonist bar.
+		/// </summary>
+		/// <param name="group">The group to convert.</param>
+		/// <returns>The given group as an index relative to the groups visible
+		/// on the colonist bar.</returns>
+		public static int GetGroupRelativeToVisible(int group)
+		{
+			var visibleGroups = GetVisibleGroups();
+			return visibleGroups.IndexOf(group);
 		}
 	}
 }
