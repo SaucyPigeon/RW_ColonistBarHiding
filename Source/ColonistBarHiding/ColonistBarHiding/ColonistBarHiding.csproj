@@ -57,6 +57,7 @@
     <Compile Include="EventData.cs" />
     <Compile Include="HiddenPawnTracker.cs" />
     <Compile Include="Loader.cs" />
+    <Compile Include="Mod\ColonistBarHidingMod.cs" />
     <Compile Include="Patches\ColonistBarColonistDrawer\ColonistBarColonistDrawer_HandleClicks.cs" />
     <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateColonistsInGroup.cs" />
     <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateDrawLocs_0.cs" />

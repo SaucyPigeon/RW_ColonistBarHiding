@@ -33,13 +33,26 @@ namespace ColonistBarHiding
 		}
 
 		/// <summary>
+		/// Show the message for when all colonist bar entries are hidden.
+		/// </summary>
+		public static void ShowAllHiddenMessage()
+		{
+			Messages.Message("ColonistBarHiding.MessageAllEntriesHidden".Translate(), MessageTypeDefOf.CautionInput, false);
+		}
+
+		/// <summary>
 		/// Marks the pawn as hidden for the colonist bar.
 		/// </summary>
 		/// <param name="pawn">The pawn to hide.</param>
-		public static void RemoveColonist(Pawn pawn)
+		/// <param name="fromColonistBar">Whether the function was called from the colonist bar floating menu option.</param>
+		public static void RemoveColonist(Pawn pawn, bool fromColonistBar)
 		{
 			HiddenPawnTracker.Hide(pawn);
 			Find.ColonistBar.MarkColonistsDirty();
+			if (!AnyVisibleEntries() && fromColonistBar)
+			{
+				ShowAllHiddenMessage();
+			}
 		}
 
 		/// <summary>

@@ -39,7 +39,7 @@ namespace ColonistBarHiding.Patches.ColonistBarColonistDrawer
 					"ColonistBarHiding.GetSettings".Translate(),
 					delegate
 					{
-						Find.WindowStack.Add(new Dialog_ManageColonistBar());
+						Find.WindowStack.Add(new Dialog_ManageColonistBar(true));
 					});
 
 				var optionList = new List<FloatMenuOption>()

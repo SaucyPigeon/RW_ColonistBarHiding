@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-	<ColonistBarHiding.GetSettings>Manage colonist bar...</ColonistBarHiding.GetSettings>
-	<Remove>Remove</Remove>
-	<Restore>Restore</Restore>
+
+	<ColonistBarHiding>Colonist Bar Hiding</ColonistBarHiding>
+	<ColonistBarHiding.GetSettings>Edit hidden colonists...</ColonistBarHiding.GetSettings>
+	<ColonistBarHiding.Remove>Hide</ColonistBarHiding.Remove>
+	<ColonistBarHiding.Restore>Show</ColonistBarHiding.Restore>
+	<ColonistBarHiding.MessageAllEntriesHidden>All colonist bar entries are now hidden. To access this menu again, you can go to Options->Mod Settings->Colonist Bar Hiding.</ColonistBarHiding.MessageAllEntriesHidden>
+	
 </LanguageData>
