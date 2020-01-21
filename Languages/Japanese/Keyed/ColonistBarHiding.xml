@@ -2,7 +2,11 @@
 <LanguageData>
 
   <ColonistBarHiding.GetSettings>入植者一覧を編集する...</ColonistBarHiding.GetSettings>
-  <Remove>非表示にする</Remove>
-  <Restore>表示する</Restore>
-
+  <ColonistBarHiding.Remove>非表示にする</ColonistBarHiding.Remove>
+  <ColonistBarHiding.Restore>表示する</ColonistBarHiding.Restore>
+  <!--Missing:
+  ColonistBarHiding
+  ColonistBarHiding.MessageAllEntriesHidden
+  -->
+  
 </LanguageData>

@@ -36,6 +36,15 @@ namespace ColonistBarHiding
 			return Type == EventType.MouseDown && Button == 1;
 		}
 
+		/// <summary>
+		/// Checks if the right mouse button is released during the event.
+		/// </summary>
+		/// <returns>True if the right mouse button is released, false otherwise.</returns>
+		public bool RightMouseButtonReleased()
+		{
+			return Type == EventType.MouseUp && Button == 1;
+		}
+
 		public EventData(Event e)
 		{
 			Type = e.type;

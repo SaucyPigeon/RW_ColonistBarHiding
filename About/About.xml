@@ -5,10 +5,17 @@
   <url></url>
   <description>Allows you to hide colonists from your colonist bar, decreasing clutter.
 How it works:
-- Right click on your colonist bar (even if all colonists have been removed).
-- Click "Manage colonist bar...".
-- Click "Restore" or "Remove" on the appropriate colonist.
-Compatible with save games. Hidden colonists are saved, even if you disable the mod between saves.
+- Right click on your colonist bar or go into mod settings.
+- Click "Edit hidden colonists...".
+- Click "Show" or "Hide" on the appropriate colonist.
+
+Compatible with:
+- Save games
+- Color Coded Mood Bar
+- Pawn Badge
+
+Incompatible with:
+- Colonist Bar KF
 
 Special thanks:
 - Proxyer for providing the Japanese translation
