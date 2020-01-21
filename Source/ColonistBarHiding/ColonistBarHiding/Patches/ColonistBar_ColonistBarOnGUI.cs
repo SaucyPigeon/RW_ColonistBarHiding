@@ -76,7 +76,6 @@ namespace ColonistBarHiding.Patches
 					Rect rect = new Rect(colonistBar.DrawLocs[i].x, colonistBar.DrawLocs[i].y, colonistBar.Size.x, colonistBar.Size.y);
 					ColonistBar.Entry entry = entries[i];
 
-
 					bool isDifferentGroup = currentGroup != entry.group;
 					currentGroup = entry.group;
 					if (isDifferentGroup)
