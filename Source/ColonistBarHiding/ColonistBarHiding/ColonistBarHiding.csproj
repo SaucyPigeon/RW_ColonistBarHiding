@@ -72,8 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Dialog_ManageColonistBar.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Patches\Selector\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

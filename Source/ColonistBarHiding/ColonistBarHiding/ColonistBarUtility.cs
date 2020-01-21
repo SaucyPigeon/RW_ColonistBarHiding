@@ -59,7 +59,7 @@ namespace ColonistBarHiding
 		/// <returns>True if the pawn is marked as hidden, false otherwise.</returns>
 		public static bool IsHidden(Pawn pawn)
 		{
-			// Fix bug where HiddenPawnTracker==null if item within is detroyed between saves without mod.
+			// Fixed bug where HiddenPawnTracker==null if item within is detroyed between saves without mod.
 			if (HiddenPawnTracker == null)
 			{
 				HiddenPawnTracker = new HiddenPawnTracker();
@@ -83,7 +83,6 @@ namespace ColonistBarHiding
 		/// <returns>The amount of groups in the colonist bar.</returns>
 		public static int CalculateGroupsCount()
 		{
-			//List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
 			var entries = GetVisibleEntries();
 			int currentGroup = -1;
 			int groupsCount = 0;
@@ -96,6 +95,7 @@ namespace ColonistBarHiding
 					currentGroup = entry.group;
 				}
 			}
+		
 			return groupsCount;
 		}
 
@@ -108,7 +108,22 @@ namespace ColonistBarHiding
 		{
 			var sourceCount = source.Count;
 			var hiddenCount = HiddenPawnTracker.HiddenCount;
-			return sourceCount - hiddenCount;
+			var result = sourceCount - hiddenCount;
+			if (result < 0)
+			{
+				result = 0;
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// Returns whether there are any visible entries for the colonist bar.
+		/// </summary>
+		/// <returns>Whether there are any visible entries for the colonist bar.</returns>
+		public static bool AnyVisibleEntries()
+		{
+			var count = GetVisibleEntriesCount();
+			return count > 0;
 		}
 
 		/// <summary>

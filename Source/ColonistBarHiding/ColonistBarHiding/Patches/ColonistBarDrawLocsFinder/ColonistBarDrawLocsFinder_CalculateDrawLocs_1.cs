@@ -24,7 +24,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	{
 		private static void CalculateDrawLocs(List<Vector2> outDrawLocs, List<int> entriesInGroup, out float scale, ref List<int> horizontalSlotsPerGroup)
 		{
-			if (ColonistBarUtility.GetVisibleEntriesCount() == 0)
+			if (!ColonistBarUtility.AnyVisibleEntries())
 			{
 				outDrawLocs.Clear();
 				scale = 1f;

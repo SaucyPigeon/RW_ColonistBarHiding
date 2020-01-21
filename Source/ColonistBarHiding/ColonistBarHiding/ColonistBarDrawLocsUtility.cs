@@ -129,7 +129,8 @@ namespace ColonistBarHiding
 		public static float GetBestScale(List<int> entriesInGroup, out bool onlyOneRow, out int maxPerGlobalRow, out List<int> horizontalSlotsPerGroup)
 		{
 			float bestScale = 1f;
-			List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
+			//List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
+			var entries = ColonistBarUtility.GetVisibleEntries();
 			int groupsCount = ColonistBarUtility.CalculateGroupsCount();
 			while (true)
 			{
@@ -147,23 +148,20 @@ namespace ColonistBarHiding
 
 					foreach (var entry in entries)
 					{
-						if (!ColonistBarUtility.IsHidden(entry))
-						{
-							if (currentGroup != entry.group)
+						if (currentGroup != entry.group)
+						{ 
+							currentGroup = entry.group;
+							int num6 = Mathf.CeilToInt(
+								(float)entriesInGroup[entry.group] / (float)horizontalSlotsPerGroup[entry.group]
+								);
+							if (num6 > 1)
 							{
-								currentGroup = entry.group;
-								int num6 = Mathf.CeilToInt(
-									(float)entriesInGroup[entry.group] / (float)horizontalSlotsPerGroup[entry.group]
-									);
-								if (num6 > 1)
-								{
-									onlyOneRow = false;
-								}
-								if (num6 > allowedRowsCountForScale)
-								{
-									flag = false;
-									break;
-								}
+								onlyOneRow = false;
+							}
+							if (num6 > allowedRowsCountForScale)
+							{
+								flag = false;
+								break;
 							}
 						}
 					}

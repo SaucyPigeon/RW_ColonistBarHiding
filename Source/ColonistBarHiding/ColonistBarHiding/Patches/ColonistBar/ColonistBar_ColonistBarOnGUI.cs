@@ -26,6 +26,11 @@ namespace ColonistBarHiding.Patches.ColonistBar
 			{
 				var colonistBar = Find.ColonistBar;
 				var entries = colonistBar.Entries;
+				//if (entries.Count != colonistBar.DrawLocs.Count)
+				//{
+				//	throw new InvalidOperationException(
+				//		$"Entries count ({entries.Count}) must be equal to draw locs count ({colonistBar.DrawLocs.Count}).");
+				//}
 				for (int i = 0; i < colonistBar.DrawLocs.Count; i++)
 				{
 					var entry = entries[i];
