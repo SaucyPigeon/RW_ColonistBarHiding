@@ -53,14 +53,14 @@ namespace ColonistBarHiding.Patches
 				ColonistBarUtility.Reorder(from, to, entry.group, cachedEntries);
 			}, ReorderableDirection.Horizontal, colonistBar.SpaceBetweenColonistsHorizontal, delegate (int index, Vector2 dragStartPos)
 			{
-				ColonistBarUtility.DrawColonistMouseAttachment(index, dragStartPos, entry.group, cachedEntries, colonistBar.drawer);
+				ColonistBarUtility.DrawColonistMouseAttachment(index, dragStartPos, entry.group, cachedEntries);
 			});
 		}
 
 		// Modified private method ColonistBar.ColonstBarOnGUI()
 		private static void ColonistBarOnGUI(ColonistBar colonistBar, List<ColonistBar.Entry> cachedEntries, List<Pawn> colonistsToHighlight)
 		{
-			if (!ColonistBarUtility.ShouldBeVisible(Find.ColonistBar.Entries))
+			if (!ColonistBarUtility.ShouldBeVisible())
 			{
 				return;
 			}

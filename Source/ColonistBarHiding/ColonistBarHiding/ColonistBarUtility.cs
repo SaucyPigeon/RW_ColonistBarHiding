@@ -13,8 +13,15 @@ namespace ColonistBarHiding
 	/// </summary>
 	public static class ColonistBarUtility
 	{
+		/// <summary>
+		/// Tracks pawns marked as hidden on the colonist bar. 
+		/// </summary>
 		public static HiddenPawnTracker HiddenPawnTracker;
 
+		/// <summary>
+		/// Gets pawns saved on the colonist bar.
+		/// </summary>
+		/// <returns>Pawns that are saved as entries on the colonist bar.</returns>
 		public static List<Pawn> GetColonistBarPawns()
 		{
 			var list = new List<Pawn>();
@@ -94,7 +101,12 @@ namespace ColonistBarHiding
 			return groupsCount;
 		}
 
-		private static int GetVisibleEntriesCountFrom(List<ColonistBar.Entry> source)
+		/// <summary>
+		/// Returns the count of visible entries from a given list of entries.
+		/// </summary>
+		/// <param name="source">The source list.</param>
+		/// <returns>Count of visible entries in source.</returns>
+		public static int GetVisibleEntriesCountFrom(List<ColonistBar.Entry> source)
 		{
 			var sourceCount = source.Count;
 			var hiddenCount = HiddenPawnTracker.HiddenCount;
@@ -109,29 +121,32 @@ namespace ColonistBarHiding
 		{
 			return GetVisibleEntriesCountFrom(Find.ColonistBar.Entries);
 		}
-
-		// Modified private property ColonistBar.Visible
+		
 		/// <summary>
-		/// Returns whether the colonist bar should be visible.
+		/// Gets visible colonist bar entries from the provided source of entries.
 		/// </summary>
-		//public static bool ShouldBeVisible
-		//{
-		//	get
-		//	{
-		//		return Verse.UI.screenWidth >= 800 && Verse.UI.screenHeight >= 500 && GetVisibleEntriesCount() != 0;
-		//	}
-		//}
-
-		private static List<ColonistBar.Entry> GetVisibleEntriesFrom(List<ColonistBar.Entry> source)
+		/// <param name="source">The source of entries.</param>
+		/// <returns>Visible entries from source.</returns>
+		public static List<ColonistBar.Entry> GetVisibleEntriesFrom(List<ColonistBar.Entry> source)
 		{
 			return source.Where(x => !IsHidden(x)).ToList();
 		}
 
+		/// <summary>
+		/// Returns whether the colonist bar should be visible.
+		/// </summary>
+		/// <returns>Whether the colonist bar should be visible.</returns>
 		public static bool ShouldBeVisible()
 		{
 			return ShouldBeVisible(Find.ColonistBar.Entries);
 		}
 
+		// Modified private property ColonistBar.Visible
+		/// <summary>
+		/// Returns whether the colonist bar should be visible based on the provided entries.
+		/// </summary>
+		/// <param name="cachedEntries">The entries to test.</param>
+		/// <returns>Whether the colonist bar should be visible based on the given entries.</returns>
 		public static bool ShouldBeVisible(List<ColonistBar.Entry> cachedEntries)
 		{
 			return Verse.UI.screenWidth >= 800 && Verse.UI.screenHeight >= 500 && GetVisibleEntriesCountFrom(cachedEntries) != 0;
@@ -242,8 +257,7 @@ namespace ColonistBarHiding
 		/// <param name="dragStartPos">The starting drag position.</param>
 		/// <param name="entryGroup">The group of the entry.</param>
 		/// <param name="cachedEntries">The cached entries of the colonist bar.</param>
-		/// <param name="drawer">The drawer of the colonist bar.</param>
-		public static void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup, List<ColonistBar.Entry> cachedEntries, ColonistBarColonistDrawer drawer)
+		public static void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup, List<ColonistBar.Entry> cachedEntries)
 		{
 			Pawn pawn = null;
 			Vector2 vector = default(Vector2);
@@ -266,7 +280,7 @@ namespace ColonistBarHiding
 				RenderTexture renderTexture = PortraitsCache.Get(pawn, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
 				var size = Find.ColonistBar.Size;
 				Rect rect = new Rect(vector.x, vector.y, size.x, size.y);
-				Rect pawnTextureRect = drawer.GetPawnTextureRect(rect.position);
+				Rect pawnTextureRect = Find.ColonistBar.drawer.GetPawnTextureRect(rect.position);
 				pawnTextureRect.position += Event.current.mousePosition - dragStartPos;
 				RenderTexture iconTex = renderTexture;
 				Rect? customRect = new Rect?(pawnTextureRect);

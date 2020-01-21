@@ -21,7 +21,6 @@ namespace ColonistBarHiding.Patches
 		[HarmonyPrefix]
 		private static bool Prefix(float __result, out bool onlyOneRow, out int maxPerGlobalRow, ref List<int> ___entriesInGroup, ref List<int> ___horizontalSlotsPerGroup)
 		{
-			//__result = FindBestScale(out onlyOneRow, out maxPerGlobalRow, ref ___entriesInGroup, ref ___horizontalSlotsPerGroup);
 			__result = ColonistBarDrawLocsUtility.GetBestScale(___entriesInGroup, out onlyOneRow, out maxPerGlobalRow, out ___horizontalSlotsPerGroup);
 			return false;
 		}

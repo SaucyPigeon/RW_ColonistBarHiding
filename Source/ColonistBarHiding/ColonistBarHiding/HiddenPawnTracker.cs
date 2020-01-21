@@ -65,7 +65,6 @@ namespace ColonistBarHiding
 			}
 		}
 
-
 		public void ExposeData()
 		{
 			Scribe_Collections.Look(ref pawns, "hiddenPawns", LookMode.Reference);
