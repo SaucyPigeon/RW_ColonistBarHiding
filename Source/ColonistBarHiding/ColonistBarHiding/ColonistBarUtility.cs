@@ -113,14 +113,31 @@ namespace ColonistBarHiding
 		}
 
 		/// <summary>
+		/// Returns the amount of colonist entries hidden from the colonist bar.
+		/// </summary>
+		/// <returns>The amount of colonist entries hidden from the colonist bar.</returns>
+		public static int GetHiddenCount()
+		{
+			if (HiddenPawnTracker == null)
+			{
+				HiddenPawnTracker = new HiddenPawnTracker();
+			}
+			return HiddenPawnTracker.HiddenCount;
+		}
+
+		/// <summary>
 		/// Returns the count of visible entries from a given list of entries.
 		/// </summary>
 		/// <param name="source">The source list.</param>
 		/// <returns>Count of visible entries in source.</returns>
 		public static int GetVisibleEntriesCountFrom(List<ColonistBar.Entry> source)
 		{
+			if (source == null)
+			{
+				throw new ArgumentNullException(nameof(source));
+			}
 			var sourceCount = source.Count;
-			var hiddenCount = HiddenPawnTracker.HiddenCount;
+			var hiddenCount = GetHiddenCount();
 			var result = sourceCount - hiddenCount;
 			if (result < 0)
 			{
