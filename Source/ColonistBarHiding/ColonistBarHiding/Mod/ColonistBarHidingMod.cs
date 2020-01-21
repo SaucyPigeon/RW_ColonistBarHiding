@@ -10,11 +10,13 @@ namespace ColonistBarHiding.Mod
 {
 	using Mod = Verse.Mod;
 
+	/// <summary>
+	/// The <see cref="Verse.Mod"/> class for <see cref="ColonistBarHiding"/>.
+	/// </summary>
 	public class ColonistBarHidingMod : Mod
 	{
 		public ColonistBarHidingMod(ModContentPack content) : base(content)
 		{
-			// Whatever
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect)
