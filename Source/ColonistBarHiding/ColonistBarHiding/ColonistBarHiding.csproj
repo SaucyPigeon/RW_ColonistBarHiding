@@ -57,14 +57,15 @@
     <Compile Include="EventData.cs" />
     <Compile Include="HiddenPawnTracker.cs" />
     <Compile Include="Loader.cs" />
-    <Compile Include="Patches\ColonistBarColonistDrawer\ColonistBarColonistDrawer_HandleClicks.cs" />
-    <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateColonistsInGroup.cs" />
-    <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateDrawLocs_0.cs" />
-    <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateDrawLocs_1.cs" />
-    <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateGroupsCount.cs" />
-    <Compile Include="Patches\ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_FindBestScale.cs" />
-    <Compile Include="Patches\ColonistBar\ColonistBar_ColonistBarOnGUI.cs" />
-    <Compile Include="Patches\Game\Game_ExposeSmallComponents.cs" />
+    <Compile Include="Patches\ColonistBarColonistDrawer_DrawColonist.cs" />
+    <Compile Include="Patches\ColonistBarColonistDrawer_HandleClicks.cs" />
+    <Compile Include="Patches\ColonistBarDrawLocsFinder_CalculateColonistsInGroup.cs" />
+    <Compile Include="Patches\ColonistBarDrawLocsFinder_CalculateDrawLocs_0.cs" />
+    <Compile Include="Patches\ColonistBarDrawLocsFinder_CalculateDrawLocs_1.cs" />
+    <Compile Include="Patches\ColonistBarDrawLocsFinder_CalculateGroupsCount.cs" />
+    <Compile Include="Patches\ColonistBarDrawLocsFinder_FindBestScale.cs" />
+    <Compile Include="Patches\ColonistBar_ColonistBarOnGUI.cs" />
+    <Compile Include="Patches\Game_ExposeSmallComponents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Dialog_ManageColonistBar.cs" />
   </ItemGroup>
