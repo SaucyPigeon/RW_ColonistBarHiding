@@ -16,50 +16,71 @@ namespace ColonistBarHiding.UI
 	{
 		private readonly bool fromColonistBar;
 
+		private Vector2 scrollPosition;
+		private float viewHeight;
+
+		new const float Margin = 10f;
+
 		public override void DoWindowContents(Rect inRect)
 		{
-			var listingStandard = new Listing_Standard
+			var rect = inRect.ContractedBy(Margin);
+			// Avoid overlapping with close button
+			const float distFromBottom = 40f;
+			rect.height -= distFromBottom;
+			var rect4 = new Rect(0, 0, rect.width - 16f, this.viewHeight);
+
+			Widgets.BeginScrollView(rect, ref scrollPosition, rect4, true);
+			var rect5 = rect4;
+			rect5.width -= 16f;
+			rect5.height = 9999f;
+
+			Listing_Standard list = new Listing_Standard()
 			{
-				ColumnWidth = inRect.width
+				ColumnWidth = rect5.width,
+				maxOneColumn = true,
+				verticalSpacing = 6f
 			};
-			listingStandard.Begin(inRect);
+			list.Begin(rect5);
 
 			var pawns = ColonistBarUtility.GetColonistBarPawns();
 			foreach (var pawn in pawns)
 			{
-				Rect rect = listingStandard.GetRect(24f);
-				DoPawnRow(rect, pawn, fromColonistBar);
-				listingStandard.Gap(6f);
+				var pawnRect = list.GetRect(6f);
+				AddButton(pawnRect, list, pawn, fromColonistBar);
 			}
-			listingStandard.End();
+
+			if (Event.current.type == EventType.Layout)
+			{
+				this.viewHeight = list.CurHeight;
+			}
+			list.End();
+			Widgets.EndScrollView();
 		}
 
 		// TODO: Add pawn icon in menu, next to name
-		private static void DoPawnRow(Rect rect, Pawn pawn, bool fromColonistBar)
+		private static void AddButton(Rect rect, Listing_Standard list, Pawn pawn, bool fromColonistBar)
 		{
-			GUI.BeginGroup(rect);
-			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
-			widgetRow.Gap(4f);
-
-			// TODO fix this...
-			float width = rect.width - widgetRow.FinalX - 4f - Text.CalcSize("ColonistBarHiding.Restore".Translate()).x - 16f - 4f - Text.CalcSize("ColonistBarHiding.Restore".Translate()).x - 16f - 4f - 24f;
-			widgetRow.Label(pawn.Label, width);
+			float truncWidth = rect.width / 2f - 4f;
+			string pawnLabel = pawn.Label.Truncate(truncWidth);
 
 			if (ColonistBarUtility.IsHidden(pawn))
 			{
-				if (widgetRow.ButtonText("ColonistBarHiding.Restore".Translate(), null, true, false))
+				string buttonLabel = "ColonistBarHiding.Restore".Translate();
+				buttonLabel = buttonLabel.Truncate(truncWidth);
+				if (list.ButtonTextLabeled(pawnLabel, buttonLabel))
 				{
 					ColonistBarUtility.RestoreColonist(pawn);
 				}
 			}
 			else
 			{
-				if (widgetRow.ButtonText("ColonistBarHiding.Remove".Translate(), null, true, false))
+				string buttonLabel = "ColonistBarHiding.Remove".Translate();
+				buttonLabel = buttonLabel.Truncate(truncWidth);
+				if (list.ButtonTextLabeled(pawnLabel, buttonLabel))
 				{
 					ColonistBarUtility.RemoveColonist(pawn, fromColonistBar);
 				}
 			}
-			GUI.EndGroup();
 		}
 
 		public Dialog_ManageColonistBar(bool fromColonistBar)
