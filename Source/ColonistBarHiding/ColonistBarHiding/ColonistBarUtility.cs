@@ -227,9 +227,8 @@ namespace ColonistBarHiding
 			return ShouldBeVisible(Find.ColonistBar.Entries);
 		}
 
-		// Modified private property ColonistBar.Visible
 		/// <summary>
-		/// Returns whether the colonist bar should be visible based on the provided entries.
+		/// Returns whether the colonist bar should be visible based on the provided entries. Original private property: <see cref="ColonistBar.Visible"/>.
 		/// </summary>
 		/// <param name="cachedEntries">The entries to test.</param>
 		/// <returns>Whether the colonist bar should be visible based on the given entries.</returns>
@@ -247,9 +246,8 @@ namespace ColonistBarHiding
 			return GetVisibleEntriesFrom(Find.ColonistBar.Entries);
 		}
 
-		// Modified private property ColonistBar.ShowGroupFrames
 		/// <summary>
-		/// Gets whether the colonist bar should display group frames.
+		/// Gets whether the colonist bar should display group frames. Original private property: <see cref="ColonistBar.ShowGroupFrames"/>.
 		/// </summary>
 		public static bool ShowGroupFrames
 		{
@@ -265,9 +263,8 @@ namespace ColonistBarHiding
 			}
 		}
 
-		// Modified private method ColonstBar.Reorder()
 		/// <summary>
-		/// Reorders the colonist bar.
+		/// Reorders the colonist bar. Original private method: <see cref="ColonistBar.Reorder"/>.
 		/// </summary>
 		/// <param name="from">The index to reorder from.</param>
 		/// <param name="to">The index to reorder to.</param>
@@ -364,9 +361,8 @@ namespace ColonistBarHiding
 			}
 		}
 
-		// Modified private method ColonistBar.DrawColonistMouseAttachment()
 		/// <summary>
-		/// Draws the mouse attachment for the colonist at the given index.
+		/// Draws the mouse attachment for the colonist at the given index. Original private method: <see cref="ColonistBar.DrawColonistMouseAttachment"/>.
 		/// </summary>
 		/// <param name="index">The index of the colonist.</param>
 		/// <param name="dragStartPos">The starting drag position.</param>
@@ -392,9 +388,8 @@ namespace ColonistBarHiding
 			}
 		}
 
-		// Modified public method ColonistBar.TryGetEntryAt()
 		/// <summary>
-		/// Tries to get the colonist bar entry at the given position.
+		/// Tries to get the colonist bar entry at the given position. Original public method: <see cref="ColonistBar.TryGetEntryAt(Vector2, out ColonistBar.Entry)"/>.
 		/// </summary>
 		/// <param name="pos">The target position.</param>
 		/// <param name="entry">The result of the search.</param>
