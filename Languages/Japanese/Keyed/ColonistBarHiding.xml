@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <ColonistBarHiding>Colonist Bar Hiding</ColonistBarHiding>
   <ColonistBarHiding.GetSettings>入植者一覧を編集する...</ColonistBarHiding.GetSettings>
   <ColonistBarHiding.Remove>非表示にする</ColonistBarHiding.Remove>
   <ColonistBarHiding.Restore>表示する</ColonistBarHiding.Restore>
-  <!--Missing:
-  ColonistBarHiding
-  ColonistBarHiding.MessageAllEntriesHidden
-  -->
+  <ColonistBarHiding.MessageAllEntriesHidden>入植者一覧のすべてのエントリが非表示になりました。このメニューに再びアクセスするには、[オプション]から[Mod設定]を開いて、\n[Colonist Bar Hiding]に移動します。</ColonistBarHiding.MessageAllEntriesHidden>
   
 </LanguageData>
