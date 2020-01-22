@@ -21,7 +21,7 @@ namespace ColonistBarHiding.Patches.ColonistBar
 	internal class ColonistBar_TryGetEntryAt
 	{
 		[HarmonyPrefix]
-		private static bool Prefix(bool __result, Vector2 pos, ref ColonistBar.Entry entry)
+		private static bool Prefix(ref bool __result, Vector2 pos, ref ColonistBar.Entry entry)
 		{
 			__result = ColonistBarUtility.TryGetEntryAt(pos, out entry);
 			return false;
