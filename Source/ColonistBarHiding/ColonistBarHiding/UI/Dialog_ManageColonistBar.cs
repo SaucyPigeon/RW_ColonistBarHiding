@@ -64,6 +64,10 @@ namespace ColonistBarHiding.UI
 			{
 				throw new ArgumentNullException(nameof(list));
 			}
+			if (pawn == null)
+			{
+				throw new ArgumentNullException(nameof(pawn));
+			}
 			float truncWidth = rect.width / 2f - 4f;
 			string pawnLabel = pawn.Label.Truncate(truncWidth);
 
