@@ -60,6 +60,10 @@ namespace ColonistBarHiding.UI
 		// TODO: Add pawn icon in menu, next to name
 		private static void AddButton(Rect rect, Listing_Standard list, Pawn pawn, bool fromColonistBar)
 		{
+			if (list == null)
+			{
+				throw new ArgumentNullException(nameof(list));
+			}
 			float truncWidth = rect.width / 2f - 4f;
 			string pawnLabel = pawn.Label.Truncate(truncWidth);
 
