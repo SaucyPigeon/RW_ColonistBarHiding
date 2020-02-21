@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Harmony;
+using HarmonyLib;
 using System.Reflection;
 using RimWorld;
 using Verse;
@@ -19,11 +19,11 @@ namespace ColonistBarHiding
 		static Loader()
 		{
 			const bool debug = false;
-			HarmonyInstance.DEBUG = debug;
+			Harmony.DEBUG = debug;
 
 			// Load harmony
 			const string id = "uk.saucypigeon.rimworld.mod.colonistbarhiding";
-			var harmony = HarmonyInstance.Create(id);
+			var harmony = new Harmony(id);
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 			// Load settings
