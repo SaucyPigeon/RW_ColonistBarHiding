@@ -132,8 +132,80 @@ namespace ColonistBarHiding.Patches.ColonistBar
 		/// hidden colonists. Original method: <see cref="ColonistBar.ColonistBarOnGUI"/>.
 		/// </summary>
 		/// <param name="colonistsToHighlight">The colonists to highlight on the colonist bar.</param>
+		[Obsolete("Planning on using transpiled instead.")]
 		private static void ColonistBarOnGUI(List<Pawn> colonistsToHighlight)
 		{
+			/*
+			ORIGINAL:
+			if (!this.Visible)
+			{
+				return;
+			}
+			if (Event.current.type != EventType.Layout)
+			{
+				List<ColonistBar.Entry> entries = this.Entries;
+				int num = -1;
+				bool showGroupFrames = this.ShowGroupFrames;
+				int reorderableGroup = -1;
+				for (int i = 0; i < this.cachedDrawLocs.Count; i++)
+				{
+					Rect rect = new Rect(this.cachedDrawLocs[i].x, this.cachedDrawLocs[i].y, this.Size.x, this.Size.y);
+					ColonistBar.Entry entry = entries[i];
+					bool flag = num != entry.group;
+					num = entry.group;
+					if (flag)
+					{
+						reorderableGroup = ReorderableWidget.NewGroup(entry.reorderAction, ReorderableDirection.Horizontal, this.SpaceBetweenColonistsHorizontal, entry.extraDraggedItemOnGUI);
+					}
+					bool reordering;
+					if (entry.pawn != null)
+					{
+						this.drawer.HandleClicks(rect, entry.pawn, reorderableGroup, out reordering);
+					}
+					else
+					{
+						reordering = false;
+					}
+					if (Event.current.type == EventType.Repaint)
+					{
+						if (flag & showGroupFrames)
+						{
+							this.drawer.DrawGroupFrame(entry.group);
+						}
+						if (entry.pawn != null)
+						{
+							this.drawer.DrawColonist(rect, entry.pawn, entry.map, this.colonistsToHighlight.Contains(entry.pawn), reordering);
+							if (entry.pawn.HasExtraHomeFaction(null))
+							{
+								Faction extraHomeFaction = entry.pawn.GetExtraHomeFaction(null);
+								GUI.color = extraHomeFaction.Color;
+								float num2 = rect.width * 0.5f;
+								GUI.DrawTexture(new Rect(rect.xMax - num2 - 2f, rect.yMax - num2 - 2f, num2, num2), extraHomeFaction.def.FactionIcon);
+								GUI.color = Color.white;
+							}
+						}
+					}
+				}
+				num = -1;
+				if (showGroupFrames)
+				{
+					for (int j = 0; j < this.cachedDrawLocs.Count; j++)
+					{
+						ColonistBar.Entry entry2 = entries[j];
+						bool arg_1FA_0 = num != entry2.group;
+						num = entry2.group;
+						if (arg_1FA_0)
+						{
+							this.drawer.HandleGroupFrameClicks(entry2.group);
+						}
+					}
+				}
+			}
+			if (Event.current.type == EventType.Repaint)
+			{
+				this.colonistsToHighlight.Clear();
+			}
+			*/
 			if (ColonistBarUtility.ShouldBeVisible())
 			{
 				if (Event.current.type != EventType.Layout)
