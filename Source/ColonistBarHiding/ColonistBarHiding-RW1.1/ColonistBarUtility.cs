@@ -222,9 +222,15 @@ namespace ColonistBarHiding
 		/// Returns whether the colonist bar should be visible.
 		/// </summary>
 		/// <returns>Whether the colonist bar should be visible.</returns>
+		[Obsolete("Use extension style method instead.")]
 		public static bool ShouldBeVisible()
 		{
 			return ShouldBeVisible(Find.ColonistBar.Entries);
+		}
+
+		public static bool ShouldBeVisible(this ColonistBar colonistBar)
+		{
+			return ShouldBeVisible(colonistBar.Entries);
 		}
 
 		/// <summary>
@@ -241,14 +247,29 @@ namespace ColonistBarHiding
 		/// Gets visible entries on the colonist bar.
 		/// </summary>
 		/// <returns>Entries that are marked as visible on the colonist bar.</returns>
+		[Obsolete("Use extension style method.")]
 		public static List<ColonistBar.Entry> GetVisibleEntries()
 		{
 			return GetVisibleEntriesFrom(Find.ColonistBar.Entries);
 		}
 
+		public static List<ColonistBar.Entry> GetVisibleEntries(this ColonistBar colonistBar)
+		{
+			return GetVisibleEntriesFrom(colonistBar.Entries);
+		}
+
+		//public static List<ColonistBar.Entry> VisibleEntries
+		//{
+		//	get
+		//	{
+		//		return GetVisibleEntriesFrom(Find.ColonistBar.Entries);
+		//	}
+		//}
+
 		/// <summary>
 		/// Gets whether the colonist bar should display group frames. Original private property: <see cref="ColonistBar.ShowGroupFrames"/>.
 		/// </summary>
+		[Obsolete("Need to transpile this property.")]
 		public static bool ShowGroupFrames
 		{
 			get
@@ -368,25 +389,25 @@ namespace ColonistBarHiding
 		/// <param name="dragStartPos">The starting drag position.</param>
 		/// <param name="entryGroup">The group of the entry.</param>
 		/// <param name="cachedEntries">The cached entries of the colonist bar.</param>
-		public static void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup, List<ColonistBar.Entry> cachedEntries)
-		{
-			GetPawnAtIndex(index, entryGroup, cachedEntries, out Pawn pawn, out Vector2 vector);
+		//public static void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup, List<ColonistBar.Entry> cachedEntries)
+		//{
+		//	GetPawnAtIndex(index, entryGroup, cachedEntries, out Pawn pawn, out Vector2 vector);
 
-			if (pawn != null)
-			{
-				RenderTexture renderTexture = PortraitsCache.Get(
-					pawn, ColonistBarColonistDrawer.PawnTextureSize,
-					ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
+		//	if (pawn != null)
+		//	{
+		//		RenderTexture renderTexture = PortraitsCache.Get(
+		//			pawn, ColonistBarColonistDrawer.PawnTextureSize,
+		//			ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
 
-				var size = Find.ColonistBar.Size;
-				Rect rect = new Rect(vector.x, vector.y, size.x, size.y);
-				Rect pawnTextureRect = Find.ColonistBar.drawer.GetPawnTextureRect(rect.position);
-				pawnTextureRect.position += Event.current.mousePosition - dragStartPos;
-				RenderTexture iconTex = renderTexture;
-				Rect? customRect = new Rect?(pawnTextureRect);
-				GenUI.DrawMouseAttachment(iconTex, string.Empty, 0f, default(Vector2), customRect);
-			}
-		}
+		//		var size = Find.ColonistBar.Size;
+		//		Rect rect = new Rect(vector.x, vector.y, size.x, size.y);
+		//		Rect pawnTextureRect = Find.ColonistBar.drawer.GetPawnTextureRect(rect.position);
+		//		pawnTextureRect.position += Event.current.mousePosition - dragStartPos;
+		//		RenderTexture iconTex = renderTexture;
+		//		Rect? customRect = new Rect?(pawnTextureRect);
+		//		GenUI.DrawMouseAttachment(iconTex, string.Empty, 0f, default(Vector2), customRect);
+		//	}
+		//}
 
 		/// <summary>
 		/// Tries to get the colonist bar entry at the given position. Original public method: <see cref="ColonistBar.TryGetEntryAt(Vector2, out ColonistBar.Entry)"/>.
@@ -417,6 +438,7 @@ namespace ColonistBarHiding
 		/// </summary>
 		/// <param name="index">The index for which to get the rect.</param>
 		/// <returns>The rect of the index.</returns>
+		[Obsolete("Inline this method.")]
 		public static Rect GetRect(int index)
 		{
 			var drawLoc = Find.ColonistBar.DrawLocs[index];
