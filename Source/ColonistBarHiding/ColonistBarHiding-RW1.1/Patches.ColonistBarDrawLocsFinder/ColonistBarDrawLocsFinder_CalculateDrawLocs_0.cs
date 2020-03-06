@@ -24,6 +24,26 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch(new Type[] { typeof(List<Vector2>), typeof(float), typeof(bool), typeof(int) })]
 	internal class ColonistBarDrawLocsFinder_CalculateDrawLocs_0
 	{
+		[HarmonyPrefix]
+		private static void Prefix()
+		{
+			Log.Message("CalculateDrawLocs", true);
+			Log.Message($"Entries count: {Find.ColonistBar.Entries.Count}", true);
+			Log.Message($"Visible count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
+
+			var field = AccessTools.Field(typeof(ColonistBar), "cachedDrawLocs");
+			var fieldValue = field.GetValue(Find.ColonistBar);
+			var cachedDrawLocs = (List<Vector2>)fieldValue;
+
+			Log.Message($"Cached locs count: {cachedDrawLocs.Count}", true);
+		}
+
+		[HarmonyPostfix]
+		private static void Postfix()
+		{
+			Log.Message("CalculateDrawLocs.Postfix", true);
+		}
+
 		private class LoopReplacer
 		{
 			public bool InLoop = false;
@@ -68,7 +88,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		Add condition for second loop: !ColonistBarUtility.IsHidden(entries[i])
 		*/
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator)
 		{
 			var flattenHorizontalSlots = AccessTools.Method(typeof(ColonistBarDrawLocsUtility), nameof(ColonistBarDrawLocsUtility.FlattenHorizontalSlots));
 			var entriesInGroupField = AccessTools.Field(typeof(ColonistBarDrawLocsFinder), "entriesInGroup");
@@ -100,6 +120,8 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 			bool gotEntriesAlready = false;
 			bool addedLoopCondition = false;
 
+			Label loopHead = ilGenerator.DefineLabel();
+
 			foreach (var instruction in instructions)
 			{
 				if (loopReplacer0.CanStart(instruction))
@@ -127,31 +149,46 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 					continue;
 				}
 
+				// Only after first loop finished
+				if (!addedLoopCondition && loopReplacer0.Finished)
+				{
+					if (instruction.opcode == OpCodes.Ldloc_S)
+					{
+						addedLoopCondition = true;
+						var labels = instruction.labels;
+						instruction.labels = new List<Label>();
+
+						// Load entries[i]
+						yield return new CodeInstruction(OpCodes.Ldloc_S, 4)
+						{
+							labels = labels
+						};
+
+						yield return new CodeInstruction(OpCodes.Ldloc_S, 9);
+						var get_Item = AccessTools.Method(typeof(List<ColonistBar.Entry>), "get_Item", new[] { typeof(int) });
+						yield return new CodeInstruction(OpCodes.Callvirt, get_Item);
+
+						// Call IsHidden(entry)
+						var isHidden = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.IsHidden), new[] { typeof(ColonistBar.Entry) });
+						yield return new CodeInstruction(OpCodes.Call, isHidden);
+
+						// Branch to beginning of loop if true
+						// We can use the saved label because it branches to the beginning
+						yield return new CodeInstruction(OpCodes.Brtrue, loopHead);
+					}
+				}
+
+				if (loopReplacer0.Finished && instruction.opcode == OpCodes.Br_S)
+				{
+					ilGenerator.MarkLabel(loopHead);
+					instruction.labels.Add(loopHead);
+				}
 				yield return instruction;
 
 				if (!gotEntriesAlready && instruction.Calls(entriesGetter))
 				{
 					gotEntriesAlready = true;
 					yield return new CodeInstruction(OpCodes.Call, getVisibleEntriesFrom);
-				}
-				// Only after first loop finished
-				else if (!addedLoopCondition && loopReplacer0.Finished && instruction.Branches(out var _))
-				{
-					addedLoopCondition = true;
-
-					// Load entries[i]
-					yield return new CodeInstruction(OpCodes.Localloc, 4);
-					yield return new CodeInstruction(OpCodes.Localloc, 9);
-					var get_Item = AccessTools.Method(typeof(List<ColonistBar.Entry>), "get_Item", new[] { typeof(int) });
-					yield return new CodeInstruction(OpCodes.Callvirt, get_Item);
-
-					// Call IsHidden(entry)
-					var isHidden = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.IsHidden), new[] { typeof(ColonistBar.Entry) });
-					yield return new CodeInstruction(OpCodes.Call, isHidden);
-
-					// Branch to beginning of loop if true
-					// We can use the current instruction's operand because it branches to the beginning
-					yield return new CodeInstruction(OpCodes.Brtrue_S, instruction.operand);
 				}
 			}
 		}

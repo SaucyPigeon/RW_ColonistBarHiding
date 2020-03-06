@@ -49,7 +49,7 @@ namespace ColonistBarHiding
 		{
 			HiddenPawnTracker.Hide(pawn);
 			Find.ColonistBar.MarkColonistsDirty();
-			if (!AnyVisibleEntries() && fromColonistBar)
+			if (GetVisibleEntriesCountFrom(Find.ColonistBar.Entries) == 0 && fromColonistBar)
 			{
 				ShowAllHiddenMessage();
 			}
@@ -116,9 +116,9 @@ namespace ColonistBarHiding
 		/// Gets groups that are visible on the colonist bar.
 		/// </summary>
 		/// <returns>Groups that are visible on the colonist bar.</returns>
-		public static List<int> GetVisibleGroups()
+		public static List<int> GetVisibleGroups(this ColonistBar colonistBar)
 		{
-			var entries = GetVisibleEntries();
+			var entries = GetVisibleEntriesFrom(colonistBar.Entries);
 			var list = new List<int>();
 			int currentGroup = -1;
 
@@ -166,27 +166,6 @@ namespace ColonistBarHiding
 			}
 			return result;
 		}
-
-		/// <summary>
-		/// Returns whether there are any visible entries for the colonist bar.
-		/// </summary>
-		/// <returns>Whether there are any visible entries for the colonist bar.</returns>
-		[Obsolete("Use GetVisibleEntriesCountFrom extension method.")]
-		public static bool AnyVisibleEntries()
-		{
-			var count = GetVisibleEntriesCount();
-			return count > 0;
-		}
-
-		/// <summary>
-		/// Gets the amount of visible colonist bar entries.
-		/// </summary>
-		/// <returns>The amount of visible colonist bar entries.</returns>
-		[Obsolete("Use GetVisibleEntriesCountFrom extension method.")]
-		public static int GetVisibleEntriesCount()
-		{
-			return GetVisibleEntriesCountFrom(Find.ColonistBar.Entries);
-		}
 		
 		/// <summary>
 		/// Gets visible colonist bar entries from the provided source of entries.
@@ -196,16 +175,6 @@ namespace ColonistBarHiding
 		public static List<ColonistBar.Entry> GetVisibleEntriesFrom(this List<ColonistBar.Entry> source)
 		{
 			return source.Where(x => !IsHidden(x)).ToList();
-		}
-
-		/// <summary>
-		/// Returns whether the colonist bar should be visible.
-		/// </summary>
-		/// <returns>Whether the colonist bar should be visible.</returns>
-		[Obsolete("Use extension style method instead.")]
-		public static bool ShouldBeVisible()
-		{
-			return ShouldBeVisible(Find.ColonistBar.Entries);
 		}
 
 		public static bool ShouldBeVisible(this ColonistBar colonistBar)
@@ -223,32 +192,9 @@ namespace ColonistBarHiding
 			return Verse.UI.screenWidth >= 800 && Verse.UI.screenHeight >= 500 && GetVisibleEntriesCountFrom(cachedEntries) != 0;
 		}
 
-		/// <summary>
-		/// Gets visible entries on the colonist bar.
-		/// </summary>
-		/// <returns>Entries that are marked as visible on the colonist bar.</returns>
-		[Obsolete("Use extension style method.")]
-		public static List<ColonistBar.Entry> GetVisibleEntries()
-		{
-			return GetVisibleEntriesFrom(Find.ColonistBar.Entries);
-		}
-
 		public static List<ColonistBar.Entry> GetVisibleEntries(this ColonistBar colonistBar)
 		{
 			return GetVisibleEntriesFrom(colonistBar.Entries);
-		}
-
-		/// <summary>
-		/// Gets the rect for the given index of the colonist bar.
-		/// </summary>
-		/// <param name="index">The index for which to get the rect.</param>
-		/// <returns>The rect of the index.</returns>
-		[Obsolete("Inline this method.")]
-		public static Rect GetRect(int index)
-		{
-			var drawLoc = Find.ColonistBar.DrawLocs[index];
-			var size = Find.ColonistBar.Size;
-			return new Rect(drawLoc, size);
 		}
 
 		/// <summary>
@@ -260,7 +206,7 @@ namespace ColonistBarHiding
 		/// on the colonist bar.</returns>
 		public static int GetGroupRelativeToVisible(int group)
 		{
-			var visibleGroups = GetVisibleGroups();
+			var visibleGroups = GetVisibleGroups(Find.ColonistBar);
 			return visibleGroups.IndexOf(group);
 		}
 	}

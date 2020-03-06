@@ -21,6 +21,31 @@ namespace ColonistBarHiding.Patches.ColonistBar
 	[HarmonyPatch("ColonistBarOnGUI")]
 	internal class ColonistBar_ColonistBarOnGUI
 	{
+		[HarmonyPrefix]
+		private static void Prefix()
+		{
+			//Log.Message("ColonistBarOnGUI", true);
+
+			//Log.Message($"Entries count: {Find.ColonistBar.Entries.Count}", true);
+			//Log.Message($"Visible count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
+
+			var field = AccessTools.Field(typeof(ColonistBar), "cachedDrawLocs");
+			var fieldValue = field.GetValue(Find.ColonistBar);
+			var cachedDrawLocs = (List<Vector2>)fieldValue;
+
+			Log.Message($"CachedDrawLocs.count: {cachedDrawLocs.Count}", true);
+			Log.Message($"Visible entries count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
+
+			Log.Message("Iterating through cachedDrawLocs...", true);
+
+			for (int i = 0; i < cachedDrawLocs.Count; i++)
+			{
+				Log.Message($"Entry for cachedDrawLocs i={i}: {Find.ColonistBar.Entries.GetVisibleEntriesFrom()[i]}", true);
+			}
+			Log.Message(" ", true);
+			//Log.Message($"Cached locs count: {cachedDrawLocs.Count}", true);
+		}
+
 		/*
 		Replace Visible to ShouldBeVisible
 		Replace first instance of Entries to GetVisibleEntries

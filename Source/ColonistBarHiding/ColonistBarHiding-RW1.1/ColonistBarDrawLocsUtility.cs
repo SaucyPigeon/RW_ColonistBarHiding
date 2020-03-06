@@ -21,7 +21,7 @@ namespace ColonistBarHiding
 		/// <param name="horizontalSlotsPerGroup">The amount of horizontal slots per group.</param>
 		public static void FlattenHorizontalSlots(List<int> entriesInGroup, List<int> horizontalSlotsPerGroup)
 		{
-			var visibleGroups = ColonistBarUtility.GetVisibleGroups();
+			var visibleGroups = ColonistBarUtility.GetVisibleGroups(Find.ColonistBar);
 
 			foreach (var visibleGroup in visibleGroups)
 			{

@@ -23,20 +23,12 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch(new Type[] { typeof(List<Vector2>), typeof(float)}, new[] { ArgumentType.Normal, ArgumentType.Out})]
 	internal class ColonistBarDrawLocsFinder_CalculateDrawLocs_1
 	{
-		/*
-			//if (this.ColonistBar.Entries.Count == 0)
-			if (ColonistBarUtility.GetVisibleEntries(this.colonistBar).Count == 0)
-			{
-				outDrawLocs.Clear();
-				scale = 1f;
-				return;
-			}
-			this.CalculateColonistsInGroup(); -> patch with GetGroupEntryCounts()
-			bool onlyOneRow;
-			int maxPerGlobalRow;
-			scale = this.FindBestScale(out onlyOneRow, out maxPerGlobalRow); -> patch
-			this.CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow); -> patch
-		*/
+		[HarmonyPostfix]
+		private static void Postfix()
+		{
+			Log.Message("CalculateDrawLocs (short).Postfix", true);
+		}
+
 
 		/*
 		Replace Entries with GetVisibleEntries
@@ -49,22 +41,5 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 
 			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
 		}
-
-		//private static void CalculateDrawLocs(List<Vector2> outDrawLocs, List<int> entriesInGroup, out float scale, ref List<int> horizontalSlotsPerGroup)
-		//{
-		//	if (!ColonistBarUtility.AnyVisibleEntries())
-		//	{
-		//		outDrawLocs.Clear();
-		//		scale = 1f;
-		//	}
-		//	else
-		//	{
-		//		// Patched			entriesInGroup = ColonistBarDrawLocsUtility.GetGroupEntryCounts();
-		//		scale = ColonistBarDrawLocsUtility.GetBestScale(
-		//			entriesInGroup,
-		//			out bool onlyOneRow, out int maxPerGlobalRow, out horizontalSlotsPerGroup);
-		//		 ColonistBarDrawLocsUtility.GetDrawLocs(scale, onlyOneRow, maxPerGlobalRow, entriesInGroup, horizontalSlotsPerGroup, outDrawLocs);
-		//	}
-		//}
 	}
 }
