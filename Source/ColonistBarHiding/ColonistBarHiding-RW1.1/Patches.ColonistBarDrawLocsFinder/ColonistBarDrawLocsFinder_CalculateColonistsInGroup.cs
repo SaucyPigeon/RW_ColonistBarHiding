@@ -22,7 +22,20 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		[HarmonyPrefix]
 		private static bool Prefix(ref List<int> ___entriesInGroup)
 		{
-			___entriesInGroup = ColonistBarDrawLocsUtility.GetGroupEntryCounts();
+			var entries = ColonistBarUtility.GetVisibleEntries(Find.ColonistBar);
+			var totalGroupsCount = ColonistBarUtility.GetTotalGroupsCount();
+
+			var list = new List<int>(totalGroupsCount);
+			for (int i = 0; i < totalGroupsCount; i++)
+			{
+				list.Add(0);
+			}
+			foreach (var entry in entries)
+			{
+				int group = entry.group;
+				list[group]++;
+			}
+			___entriesInGroup = list;
 			return false;
 		}
 	}

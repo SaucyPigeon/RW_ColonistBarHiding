@@ -173,7 +173,7 @@ namespace ColonistBarHiding
 		/// </summary>
 		/// <param name="source">The source list.</param>
 		/// <returns>Count of visible entries in source.</returns>
-		public static int GetVisibleEntriesCountFrom(List<ColonistBar.Entry> source)
+		public static int GetVisibleEntriesCountFrom(this List<ColonistBar.Entry> source)
 		{
 			if (source == null)
 			{
@@ -193,6 +193,7 @@ namespace ColonistBarHiding
 		/// Returns whether there are any visible entries for the colonist bar.
 		/// </summary>
 		/// <returns>Whether there are any visible entries for the colonist bar.</returns>
+		[Obsolete("Use GetVisibleEntriesCountFrom extension method.")]
 		public static bool AnyVisibleEntries()
 		{
 			var count = GetVisibleEntriesCount();
@@ -203,6 +204,7 @@ namespace ColonistBarHiding
 		/// Gets the amount of visible colonist bar entries.
 		/// </summary>
 		/// <returns>The amount of visible colonist bar entries.</returns>
+		[Obsolete("Use GetVisibleEntriesCountFrom extension method.")]
 		public static int GetVisibleEntriesCount()
 		{
 			return GetVisibleEntriesCountFrom(Find.ColonistBar.Entries);

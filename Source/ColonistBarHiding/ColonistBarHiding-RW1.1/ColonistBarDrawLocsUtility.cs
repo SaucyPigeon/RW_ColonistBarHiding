@@ -19,6 +19,7 @@ namespace ColonistBarHiding
 		/// </summary>
 		/// <param name="scale">The scale of the colonist bar.</param>
 		/// <returns>The amount of allowed rows.</returns>
+		[Obsolete("This method is identical to the original.")]
 		public static int GetAllowedRowsCountForScale(float scale)
 		{
 			if (scale > 0.58f)
@@ -42,29 +43,6 @@ namespace ColonistBarHiding
 			{
 				return Verse.UI.screenWidth - 520f;
 			}
-		}
-
-		// Modified private method ColonistBarDrawLocsFinder.CalculateColonistsInGroup()
-		/// <summary>
-		/// Returns a list where list[i] is the amount of entries belonging to group[i].
-		/// </summary>
-		/// <returns>A list indexed by group, containing the amount of entries for that group.</returns>
-		public static List<int> GetGroupEntryCounts()
-		{
-			var entries = ColonistBarUtility.GetVisibleEntries();
-			var totalGroupsCount = ColonistBarUtility.GetTotalGroupsCount();
-
-			var list = new List<int>(totalGroupsCount);
-			for (int i = 0; i < totalGroupsCount; i++)
-			{
-				list.Add(0);
-			}
-			foreach (var entry in entries)
-			{
-				int group = entry.group;
-				list[group]++;
-			}
-			return list;
 		}
 
 		// Modified private method ColonistBarDrawLocsFinder.TryDistributeHorizontalSlotsBetweenGroups()
@@ -107,65 +85,6 @@ namespace ColonistBarHiding
 				}
 			}
 			return true;
-		}
-
-		// Modified private method ColonistBarDrawLocsFinder.FindBestScale().
-		/// <summary>
-		/// Returns the best scale for the colonist bar.
-		/// </summary>
-		/// <param name="entriesInGroup">The amount of entries for a given group.</param>
-		/// <param name="onlyOneRow">Whether the colonist bar should use only one row.</param>
-		/// <param name="maxPerGlobalRow">The maximum amounts of entries per row.</param>
-		/// <param name="horizontalSlotsPerGroup">The amount of horizontal slots to use for a given group.</param>
-		/// <returns>The best scale based on the amount of entries per group.</returns>
-		public static float GetBestScale(List<int> entriesInGroup, out bool onlyOneRow, out int maxPerGlobalRow, out List<int> horizontalSlotsPerGroup)
-		{
-			float bestScale = 1f;
-			var entries = ColonistBarUtility.GetVisibleEntries();
-			int groupsCount = ColonistBarUtility.GetVisibleGroupsCount();
-			while (true)
-			{
-				float colonistBarWidth = (ColonistBar.BaseSize.x + 24f) * bestScale;
-				float num4 = MaxColonistBarWidth - (float)(groupsCount - 1) * 25f * bestScale;
-				maxPerGlobalRow = Mathf.FloorToInt(num4 / colonistBarWidth);
-				onlyOneRow = true;
-				bool result = TryDistributeHorizontalSlotsBetweenGroups(
-					maxPerGlobalRow, entriesInGroup, out horizontalSlotsPerGroup);
-				if (result)
-				{
-					int allowedRowsCountForScale = GetAllowedRowsCountForScale(bestScale);
-					bool flag = true;
-					int currentGroup = -1;
-
-					foreach (var entry in entries)
-					{
-						if (currentGroup != entry.group)
-						{ 
-							currentGroup = entry.group;
-
-							int rowCount = Mathf.CeilToInt(
-								(float)entriesInGroup[entry.group] / (float)horizontalSlotsPerGroup[ColonistBarUtility.GetGroupRelativeToVisible(entry.group)]
-								);
-
-							if (rowCount > 1)
-							{
-								onlyOneRow = false;
-							}
-							if (rowCount > allowedRowsCountForScale)
-							{
-								flag = false;
-								break;
-							}
-						}
-					}
-					if (flag)
-					{
-						break;
-					}
-				}
-				bestScale *= 0.95f;
-			}
-			return bestScale;
 		}
 
 		// Modified private method ColonistBarDrawLocsFinder.GetDrawLoc()
