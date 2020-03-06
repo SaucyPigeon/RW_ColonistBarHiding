@@ -259,30 +259,6 @@ namespace ColonistBarHiding
 		}
 
 		/// <summary>
-		/// Tries to get the colonist bar entry at the given position. Original public method: <see cref="ColonistBar.TryGetEntryAt(Vector2, out ColonistBar.Entry)"/>.
-		/// </summary>
-		/// <param name="pos">The target position.</param>
-		/// <param name="entry">The result of the search.</param>
-		/// <returns>True if successful, otherwise false.</returns>
-		public static bool TryGetEntryAt(Vector2 pos, out ColonistBar.Entry entry)
-		{
-			List<Vector2> drawLocs = Find.ColonistBar.DrawLocs;
-			var entries = ColonistBarUtility.GetVisibleEntries();
-			Vector2 size = Find.ColonistBar.Size;
-			for (int i = 0; i < drawLocs.Count; i++)
-			{
-				Rect rect = new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y);
-				if (rect.Contains(pos))
-				{
-					entry = entries[i];
-					return true;
-				}
-			}
-			entry = default(ColonistBar.Entry);
-			return false;
-		}
-
-		/// <summary>
 		/// Gets the rect for the given index of the colonist bar.
 		/// </summary>
 		/// <param name="index">The index for which to get the rect.</param>

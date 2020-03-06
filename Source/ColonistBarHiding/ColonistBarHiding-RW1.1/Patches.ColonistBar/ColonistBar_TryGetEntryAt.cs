@@ -20,11 +20,16 @@ namespace ColonistBarHiding.Patches.ColonistBar
 	[HarmonyPatch("TryGetEntryAt")]
 	internal class ColonistBar_TryGetEntryAt
 	{
-		[HarmonyPrefix]
-		private static bool Prefix(ref bool __result, Vector2 pos, ref ColonistBar.Entry entry)
+		/*
+		Replace Entries with GetVisibleEntries
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			__result = ColonistBarUtility.TryGetEntryAt(pos, out entry);
-			return false;
+			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
+			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
+
+			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
 		}
 	}
 }
