@@ -45,48 +45,6 @@ namespace ColonistBarHiding
 			}
 		}
 
-		// Modified private method ColonistBarDrawLocsFinder.TryDistributeHorizontalSlotsBetweenGroups()
-		/// <summary>
-		/// Trys to distribute horizontal slots between groups based on a per
-		/// row maximum.
-		/// </summary>
-		/// <param name="maxPerGlobalRow">The maximum amount of slots per row.</param>
-		/// <param name="entriesInGroup">The amount of entries per group.</param>
-		/// <param name="horizontalSlotsPerGroup">The result of the distribution.</param>
-		/// <returns>Returns true if successful, otherwise false.</returns>
-		public static bool TryDistributeHorizontalSlotsBetweenGroups(int maxPerGlobalRow, List<int> entriesInGroup, out List<int> horizontalSlotsPerGroup)
-		{
-			horizontalSlotsPerGroup = new List<int>();
-
-			int groupsCount = ColonistBarUtility.GetVisibleGroupsCount();
-
-			for (int i = 0; i < groupsCount; i++)
-			{
-				horizontalSlotsPerGroup.Add(0);
-			}
-
-			GenMath.DHondtDistribution(horizontalSlotsPerGroup, (int i) => (float)entriesInGroup[i], maxPerGlobalRow);
-			for (int i = 0; i < horizontalSlotsPerGroup.Count; i++)
-			{
-				if (horizontalSlotsPerGroup[i] == 0)
-				{
-					int num2 = horizontalSlotsPerGroup.Max();
-					if (num2 <= 1)
-					{
-						return false;
-					}
-					int num3 = horizontalSlotsPerGroup.IndexOf(num2);
-					List<int> list;
-					// Not my fault
-					int index;
-					(list = horizontalSlotsPerGroup)[index = num3] = list[index] - 1;
-					int index2;
-					(list = horizontalSlotsPerGroup)[index2 = i] = list[index2] + 1;
-				}
-			}
-			return true;
-		}
-
 		// Modified private method ColonistBarDrawLocsFinder.GetDrawLoc()
 		/// <summary>
 		/// Gets the drawing location for a given entry.
@@ -101,6 +59,8 @@ namespace ColonistBarHiding
 		/// <returns>The drawing location for a given entry.</returns>
 		public static Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int positionInGroup, float scale, List<int> entriesInGroup, List<int> horizontalSlotsPerGroup)
 		{
+			// When accessing horizontalSlotsPerGroup, call GetGroupRelativeToVisible on group
+
 			int horizontalSlot = horizontalSlotsPerGroup[ColonistBarUtility.GetGroupRelativeToVisible(group)];
 
 			if (horizontalSlot == 0)

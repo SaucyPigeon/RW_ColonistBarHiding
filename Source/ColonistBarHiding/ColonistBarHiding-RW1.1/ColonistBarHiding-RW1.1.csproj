@@ -57,6 +57,7 @@
     <Compile Include="Patches.ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateDrawLocs_1.cs" />
     <Compile Include="Patches.ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_CalculateGroupsCount.cs" />
     <Compile Include="Patches.ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_FindBestScale.cs" />
+    <Compile Include="Patches.ColonistBarDrawLocsFinder\ColonistBarDrawLocsFinder_GetDrawLoc.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistBarOnGUI.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistOrCorpseAt.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistsOrCorpsesInScreenRect.cs" />
