@@ -20,36 +20,16 @@ namespace ColonistBarHiding.Patches.ColonistBar
 	[HarmonyPatch("ColonistOrCorpseAt")]
 	class ColonistBar_ColonistOrCorpseAt
 	{
-		// Original public method ColonistBar.ColonistOrCorpseAt()
-		private static Thing ColonistOrCorpseAt(Vector2 pos)
+		/*
+		Replace Visible to ShouldBeVisible
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			if (!ColonistBarUtility.ShouldBeVisible())
-			{
-				return null;
-			}
-			ColonistBar.Entry entry;
-			if (!ColonistBarUtility.TryGetEntryAt(pos, out entry))
-			{
-				return null;
-			}
-			Pawn pawn = entry.pawn;
-			Thing result;
-			if (pawn != null && pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
-			{
-				result = pawn.Corpse;
-			}
-			else
-			{
-				result = pawn;
-			}
-			return result;
-		}
+			var visibleGetter = AccessTools.PropertyGetter(typeof(ColonistBar), "Visible");
+			var shouldBeVisible = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.ShouldBeVisible), new[] { typeof(ColonistBar) });
 
-		[HarmonyPrefix]
-		private static bool Prefix(ref Thing __result, Vector2 pos)
-		{
-			__result = ColonistOrCorpseAt(pos);
-			return false;
+			return instructions.MethodReplacer(from: visibleGetter, to: shouldBeVisible);
 		}
 	}
 }
