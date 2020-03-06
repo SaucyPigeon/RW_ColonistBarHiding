@@ -109,19 +109,24 @@ namespace ColonistBarHiding
 		/// <param name="drawLocs">The drawling locations for the given entries.</param>
 		public static void GetDrawLocs(float scale, bool onlyOneRow, int maxPerGlobalRow, List<int> entriesInGroup, List<int> horizontalSlotsPerGroup, List<Vector2> drawLocs)
 		{
+			// Can remove from patch
 			if (scale <= 0)
 			{
 				throw new ArgumentOutOfRangeException(nameof(scale));
 			}
+
 			drawLocs.Clear();
 
 			int entriesCount = maxPerGlobalRow;
 			if (onlyOneRow)
 			{
+				// Replace loop with method call
 				FlattenHorizontalSlots(entriesInGroup, horizontalSlotsPerGroup);
+				// Replace Entries.Count = with GetVisibleEntriesCount
 				entriesCount = ColonistBarUtility.GetVisibleEntriesCount();
 			}
 
+			// CalculateGroupsCount(), patched
 			int groupsCount = ColonistBarUtility.GetVisibleGroupsCount();
 			float num3 = (ColonistBar.BaseSize.x + 24f) * scale;
 			float num4 = (float)entriesCount * num3 + (float)(groupsCount - 1) * 25f * scale;
@@ -133,6 +138,7 @@ namespace ColonistBarHiding
 
 			foreach (var entry in entries)
 			{
+				// Add loop condition:
 				if (!ColonistBarUtility.IsHidden(entry))
 				{
 					if (currentGroup != entry.group)

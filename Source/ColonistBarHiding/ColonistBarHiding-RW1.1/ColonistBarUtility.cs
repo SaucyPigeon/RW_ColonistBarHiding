@@ -85,7 +85,7 @@ namespace ColonistBarHiding
 		/// </summary>
 		/// <param name="entry">The colonist bar entry to check.</param>
 		/// <returns>True if the entry is marked as hidden, false otherwise.</returns>
-		public static bool IsHidden(ColonistBar.Entry entry)
+		public static bool IsHidden(this ColonistBar.Entry entry)
 		{
 			return IsHidden(entry.pawn);
 		}
@@ -94,6 +94,7 @@ namespace ColonistBarHiding
 		/// Calculates the amount of visible groups for the colonist bar.
 		/// </summary>
 		/// <returns>The amount of visible groups in the colonist bar.</returns>
+		[Obsolete("Use transpiled method CalculateGroupsCount instead.")]
 		public static int GetVisibleGroupsCount()
 		{
 			var entries = GetVisibleEntries();
@@ -215,7 +216,7 @@ namespace ColonistBarHiding
 		/// </summary>
 		/// <param name="source">The source of entries.</param>
 		/// <returns>Visible entries from source.</returns>
-		public static List<ColonistBar.Entry> GetVisibleEntriesFrom(List<ColonistBar.Entry> source)
+		public static List<ColonistBar.Entry> GetVisibleEntriesFrom(this List<ColonistBar.Entry> source)
 		{
 			return source.Where(x => !IsHidden(x)).ToList();
 		}
