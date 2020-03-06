@@ -60,6 +60,7 @@
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistBarOnGUI.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistOrCorpseAt.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistsOrCorpsesInScreenRect.cs" />
+    <Compile Include="Patches.ColonistBar\ColonistBar_DrawColonistMouseAttachment.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_MapColonistsOrCorpsesInScreenRect.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ShowGroupFrames.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_TryGetEntryAt.cs" />
