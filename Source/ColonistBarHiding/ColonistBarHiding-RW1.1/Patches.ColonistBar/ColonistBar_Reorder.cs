@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Verse;
-using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
+using Verse;
+using System.Reflection.Emit;
 
 namespace ColonistBarHiding.Patches.ColonistBar
 {
 	using ColonistBar = RimWorld.ColonistBar;
 
 	[HarmonyPatch(typeof(ColonistBar))]
-	[HarmonyPatch(nameof(ColonistBar.DrawColonistMouseAttachment))]
-	public static class ColonistBar_DrawColonistMouseAttachment
+	[HarmonyPatch(nameof(ColonistBar.Reorder))]
+	public static class ColonistBar_Reorder
 	{
 		/*
 		Replace cachedEntries with GetVisibleEntries

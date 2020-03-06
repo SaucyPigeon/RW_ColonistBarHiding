@@ -21,64 +21,16 @@ namespace ColonistBarHiding.Patches.ColonistBar
 	[HarmonyPatch("ColonistsOrCorpsesInScreenRect")]
 	internal class ColonistBar_ColonistsOrCorpsesInScreenRect
 	{
-		// Modified public method ColonistBar.ColonistsOrCorpsesInScreenRect()
-		private static List<Thing> ColonistsOrCorpsesInScreenRect(Rect rect,
-			List<Pair<Thing,Map>> tmpColonistsWithMap, List<Thing> tmpColonists)
+		/*
+		Replace Entries with GetVisibleEntries
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			List<Vector2> drawLocs = Find.ColonistBar.DrawLocs;
-			var entries = ColonistBarUtility.GetVisibleEntries();
-			Vector2 size = Find.ColonistBar.Size;
-			tmpColonistsWithMap.Clear();
-			for (int i = 0; i < drawLocs.Count; i++)
-			{
-				if (rect.Overlaps(new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y)))
-				{
-					Pawn pawn = entries[i].pawn;
-					if (pawn != null)
-					{
-						Thing first;
-						if (pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
-						{
-							first = pawn.Corpse;
-						}
-						else
-						{
-							first = pawn;
-						}
-						tmpColonistsWithMap.Add(new Pair<Thing, Map>(first, entries[i].map));
-					}
-				}
-			}
-			if (WorldRendererUtility.WorldRenderedNow)
-			{
-				if (tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == null))
-				{
-					tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != null);
-					goto IL_1A1;
-				}
-			}
-			if (tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == Find.CurrentMap))
-			{
-				tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != Find.CurrentMap);
-			}
-		IL_1A1:
-			tmpColonists.Clear();
-			for (int j = 0; j < tmpColonistsWithMap.Count; j++)
-			{
-				tmpColonists.Add(tmpColonistsWithMap[j].First);
-			}
-			tmpColonistsWithMap.Clear();
-			return tmpColonists;
+			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
+			var getVisibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
 
-		}
-
-		[HarmonyPrefix]
-		private static bool Prefix(ref List<Thing> __result, Rect rect,
-			List<Pair<Thing, Map>> ___tmpColonistsWithMap, List<Thing> ___tmpColonists)
-		{
-			__result = ColonistsOrCorpsesInScreenRect(rect,
-				___tmpColonistsWithMap, ___tmpColonists);
-			return false;
+			return Transpilers.MethodReplacer(instructions, entriesGetter, getVisibleEntries);
 		}
 	}
 }

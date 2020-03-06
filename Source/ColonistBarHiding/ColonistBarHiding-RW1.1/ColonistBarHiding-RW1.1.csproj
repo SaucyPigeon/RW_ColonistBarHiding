@@ -62,6 +62,7 @@
     <Compile Include="Patches.ColonistBar\ColonistBar_ColonistsOrCorpsesInScreenRect.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_DrawColonistMouseAttachment.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_MapColonistsOrCorpsesInScreenRect.cs" />
+    <Compile Include="Patches.ColonistBar\ColonistBar_Reorder.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_ShowGroupFrames.cs" />
     <Compile Include="Patches.ColonistBar\ColonistBar_TryGetEntryAt.cs" />
     <Compile Include="Patches.Game\Game_ExposeSmallComponents.cs" />
