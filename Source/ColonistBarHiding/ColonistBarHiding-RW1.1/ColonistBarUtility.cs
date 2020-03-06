@@ -91,29 +91,6 @@ namespace ColonistBarHiding
 		}
 
 		/// <summary>
-		/// Calculates the amount of visible groups for the colonist bar.
-		/// </summary>
-		/// <returns>The amount of visible groups in the colonist bar.</returns>
-		[Obsolete("Use transpiled method CalculateGroupsCount instead.")]
-		public static int GetVisibleGroupsCount()
-		{
-			var entries = GetVisibleEntries();
-			int currentGroup = -1;
-			int groupsCount = 0;
-
-			foreach (var entry in entries)
-			{
-				if (currentGroup != entry.group)
-				{
-					groupsCount++;
-					currentGroup = entry.group;
-				}
-			}
-		
-			return groupsCount;
-		}
-
-		/// <summary>
 		/// Calculates the total amount of groups for the colonist bar.
 		/// </summary>
 		/// <returns>The total amount of groups in the colonist bar.</returns>
