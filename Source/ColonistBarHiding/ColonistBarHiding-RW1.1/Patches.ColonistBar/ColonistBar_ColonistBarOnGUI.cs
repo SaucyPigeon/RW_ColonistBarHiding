@@ -29,20 +29,23 @@ namespace ColonistBarHiding.Patches.ColonistBar
 			//Log.Message($"Entries count: {Find.ColonistBar.Entries.Count}", true);
 			//Log.Message($"Visible count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
 
-			var field = AccessTools.Field(typeof(ColonistBar), "cachedDrawLocs");
-			var fieldValue = field.GetValue(Find.ColonistBar);
-			var cachedDrawLocs = (List<Vector2>)fieldValue;
-
-			Log.Message($"CachedDrawLocs.count: {cachedDrawLocs.Count}", true);
-			Log.Message($"Visible entries count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
-
-			Log.Message("Iterating through cachedDrawLocs...", true);
-
-			for (int i = 0; i < cachedDrawLocs.Count; i++)
+			if (false)
 			{
-				Log.Message($"Entry for cachedDrawLocs i={i}: {Find.ColonistBar.Entries.GetVisibleEntriesFrom()[i]}", true);
+				var field = AccessTools.Field(typeof(ColonistBar), "cachedDrawLocs");
+				var fieldValue = field.GetValue(Find.ColonistBar);
+				var cachedDrawLocs = (List<Vector2>)fieldValue;
+
+				Log.Message($"CachedDrawLocs.count: {cachedDrawLocs.Count}", true);
+				Log.Message($"Visible entries count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
+
+				Log.Message("Iterating through cachedDrawLocs...", true);
+
+				for (int i = 0; i < cachedDrawLocs.Count; i++)
+				{
+					Log.Message($"Entry for cachedDrawLocs i={i}: {Find.ColonistBar.Entries.GetVisibleEntriesFrom()[i].pawn.Name}", true);
+				}
+				Log.Message(" ", true);
 			}
-			Log.Message(" ", true);
 			//Log.Message($"Cached locs count: {cachedDrawLocs.Count}", true);
 		}
 
@@ -52,28 +55,16 @@ namespace ColonistBarHiding.Patches.ColonistBar
 		*/
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-		{
+		{			
 			var visibleGetter = AccessTools.PropertyGetter(typeof(ColonistBar), "Visible");
 			var shouldBeVisible = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.ShouldBeVisible), new[] { typeof(ColonistBar) });
-
+			
 			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
 			var GetVisibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar)});
 
-			bool entriesReplaced = false;
-
-			foreach (var instruction in instructions)
-			{
-				if (instruction.Calls(visibleGetter))
-				{
-					instruction.operand = shouldBeVisible;
-				}
-				else if (!entriesReplaced && instruction.Calls(entriesGetter))
-				{
-					instruction.operand = GetVisibleEntries;
-					entriesReplaced = true;
-				}
-				yield return instruction;
-			}
+			return instructions
+				.MethodReplacer(from: visibleGetter, to: shouldBeVisible)
+				.MethodReplacer(from: entriesGetter, to: GetVisibleEntries, count: 1);
 		}
 	}
 }

@@ -29,7 +29,6 @@ namespace ColonistBarHiding.Patches.ColonistBarColonistDrawer
 			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
 
 			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
-
 		}
 	}
 }

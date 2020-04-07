@@ -30,7 +30,7 @@ namespace ColonistBarHiding.Patches.ColonistBar
 			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
 			var getVisibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
 
-			return Transpilers.MethodReplacer(instructions, entriesGetter, getVisibleEntries);
+			return instructions.MethodReplacer(from: entriesGetter, to: getVisibleEntries);
 		}
 	}
 }

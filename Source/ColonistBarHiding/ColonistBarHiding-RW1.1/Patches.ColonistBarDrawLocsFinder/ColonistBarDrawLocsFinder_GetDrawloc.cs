@@ -26,21 +26,9 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 			var horizontalSlotsPerGroupField = AccessTools.Field(typeof(ColonistBarDrawLocsFinder), "horizontalSlotsPerGroup");
 			var getGroupRelativeToVisible = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetGroupRelativeToVisible));
 
-			bool horizontalSlotsPerGroup = false;
+			int arg_n = 3;
 
-			foreach (var instruction in instructions)
-			{
-				if (instruction.LoadsField(horizontalSlotsPerGroupField))
-				{
-					horizontalSlotsPerGroup = true;
-				}
-				yield return instruction;
-				if (horizontalSlotsPerGroup && instruction.IsLdarg(3))
-				{
-					horizontalSlotsPerGroup = false;
-					yield return new CodeInstruction(OpCodes.Call, getGroupRelativeToVisible);
-				}
-			}
+			return instructions.MethodAdder(before: horizontalSlotsPerGroupField, arg_n, method: getGroupRelativeToVisible);
 		}
 	}
 }

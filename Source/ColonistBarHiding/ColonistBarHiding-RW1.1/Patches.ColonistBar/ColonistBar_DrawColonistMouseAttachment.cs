@@ -25,15 +25,7 @@ namespace ColonistBarHiding.Patches.ColonistBar
 			var cachedEntriesField = AccessTools.Field(typeof(ColonistBar), "cachedEntries");
 			var getVisibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
 
-			foreach (var instruction in instructions)
-			{
-				if (instruction.LoadsField(cachedEntriesField))
-				{
-					instruction.opcode = OpCodes.Call;
-					instruction.operand = getVisibleEntries;
-				}
-				yield return instruction;
-			}
+			return instructions.FieldReplacer(from: cachedEntriesField, to: getVisibleEntries);
 		}
 	}
 }

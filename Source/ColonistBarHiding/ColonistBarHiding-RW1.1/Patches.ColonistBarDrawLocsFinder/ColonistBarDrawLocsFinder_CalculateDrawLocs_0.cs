@@ -42,6 +42,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		private static void Postfix()
 		{
 			Log.Message("CalculateDrawLocs.Postfix", true);
+			throw new Exception("POSTFIX");
 		}
 
 		private class LoopReplacer
@@ -87,6 +88,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		Replace first Entries.Count with GetVisibleEntriesCountFrom(Entries)
 		Add condition for second loop: !ColonistBarUtility.IsHidden(entries[i])
 		*/
+		// Need to change this entirely
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator)
 		{
