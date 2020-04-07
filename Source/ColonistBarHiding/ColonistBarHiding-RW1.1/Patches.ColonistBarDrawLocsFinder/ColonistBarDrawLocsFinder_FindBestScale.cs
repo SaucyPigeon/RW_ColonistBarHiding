@@ -7,6 +7,7 @@ using Verse;
 using RimWorld;
 using UnityEngine;
 using System.Reflection.Emit;
+using ColonistBarHiding.Transpiling;
 
 namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 {

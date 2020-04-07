@@ -7,7 +7,7 @@ using HarmonyLib;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace ColonistBarHiding
+namespace ColonistBarHiding.Transpiling
 {
 	public static class Transpilers
 	{
@@ -109,6 +109,75 @@ namespace ColonistBarHiding
 					beforeFieldLoaded = false;
 				}
 			}
+		}
+
+		public static IEnumerable<CodeInstruction> MethodAdder(this IEnumerable<CodeInstruction> instructions, MethodBase before, MethodBase value, int count)
+		{
+			if (before == null)
+				throw new ArgumentNullException(nameof(before));
+			if (value == null)
+				throw new ArgumentNullException(nameof(value));
+			if (count < 0)
+				throw new ArgumentOutOfRangeException(nameof(count));
+
+			foreach (var instruction in instructions)
+			{
+				yield return instruction;
+
+				var method = instruction.operand as MethodBase;
+
+				if (count > 0 && method == before)
+				{
+					var opcode = value.IsConstructor ? OpCodes.Newobj : OpCodes.Call;
+					yield return new CodeInstruction(opcode, operand: value);
+					count--;
+				}
+			}
+		}
+
+		private static IEnumerable<CodeInstruction> LoopReplacer(this IEnumerable<CodeInstruction> instructions, Predicate<CodeInstruction> start, Predicate<CodeInstruction> end, IEnumerable<CodeInstruction> replacement, int count)
+		{
+			if (start == null)
+				throw new ArgumentNullException(nameof(start));
+			if (end == null)
+				throw new ArgumentNullException(nameof(end));
+			if (count < 0)
+				throw new ArgumentOutOfRangeException(nameof(count));
+
+			bool inLoop = false;
+			int counter = 0;
+
+			foreach (var instruction in instructions)
+			{
+				if (!inLoop && counter < count && start.Invoke(instruction))
+				{
+					inLoop = true;
+				}
+
+				if (inLoop)
+				{
+					if (end.Invoke(instruction))
+					{
+						foreach (var r in replacement)
+						{
+							yield return r;
+						}
+						inLoop = false;
+						counter++;
+					}
+					continue;
+				}
+
+				yield return instruction;
+			}
+		}
+
+		public static IEnumerable<CodeInstruction> LoopReplacer(this IEnumerable<CodeInstruction> instructions, LoopData loopData)
+		{
+			if (loopData == null)
+				throw new ArgumentNullException(nameof(loopData));
+
+			return LoopReplacer(instructions, loopData.Start, loopData.End, loopData.Replacement, count: 1);
 		}
 	}
 }

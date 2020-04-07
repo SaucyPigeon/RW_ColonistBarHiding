@@ -7,6 +7,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 using System.Reflection.Emit;
+using ColonistBarHiding.Transpiling;
 
 namespace ColonistBarHiding.Patches.ColonistBar
 {

@@ -7,6 +7,7 @@ using RimWorld;
 using HarmonyLib;
 using Verse;
 using System.Reflection.Emit;
+using ColonistBarHiding.Transpiling;
 
 namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 {
@@ -17,6 +18,19 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch("GetDrawLoc")]
 	public static class ColonistBarDrawLocsFinder_GetDrawLoc
 	{
+		[HarmonyPrefix]
+		private static void Prefix()
+		{
+			Log.Warning("Prefix GetDrawloc");
+		}
+
+		[HarmonyPostfix]
+		private static void Postfix()
+		{
+			Log.Warning("Postfix GetDrawloc");
+
+		}
+
 		/*
 		Replace horizontalSlotsPerGroup[group] with horizontalSlotsPerGroup[GetGroupRelativeToVisible(group)]
 		*/

@@ -174,7 +174,16 @@ namespace ColonistBarHiding
 		/// <returns>Visible entries from source.</returns>
 		public static List<ColonistBar.Entry> GetVisibleEntriesFrom(this List<ColonistBar.Entry> source)
 		{
-			return source.Where(x => !IsHidden(x)).ToList();
+			Log.Warning("Getting visible entries");
+			var r = source.Where(x => !IsHidden(x)).ToList();
+			Log.Warning("Got visible entries");
+
+			Log.Warning("Printing visible entries:");
+			foreach (var e in r)
+			{
+				Log.Warning(e.pawn.Name.ToString());
+			}
+			return r;
 		}
 
 		public static bool ShouldBeVisible(this ColonistBar colonistBar)
