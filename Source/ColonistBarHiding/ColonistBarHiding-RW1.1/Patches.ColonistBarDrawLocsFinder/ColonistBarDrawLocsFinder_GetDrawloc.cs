@@ -18,18 +18,18 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch("GetDrawLoc")]
 	public static class ColonistBarDrawLocsFinder_GetDrawLoc
 	{
+#if DEBUG
 		[HarmonyPrefix]
 		private static void Prefix()
 		{
-			Log.Warning("Prefix GetDrawloc");
 		}
 
 		[HarmonyPostfix]
 		private static void Postfix()
 		{
-			Log.Warning("Postfix GetDrawloc");
 
 		}
+#endif
 
 		/*
 		Replace horizontalSlotsPerGroup[group] with horizontalSlotsPerGroup[GetGroupRelativeToVisible(group)]

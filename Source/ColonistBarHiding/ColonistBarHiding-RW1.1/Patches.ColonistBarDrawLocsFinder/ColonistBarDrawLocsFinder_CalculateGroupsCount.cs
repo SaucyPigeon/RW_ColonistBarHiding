@@ -19,11 +19,13 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch("CalculateGroupsCount")]
 	internal class ColonistBarDrawLocsFinder_CalculateGroupsCount
 	{
+#if DEBUG
 		[HarmonyPostfix]
 		private static void Postfix()
 		{
 			Log.Message("CalculateGroupsCount postfix");
 		}
+#endif 
 
 		/*
 		Replace Entries with GetVisibleEntries

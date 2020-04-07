@@ -78,10 +78,7 @@ namespace ColonistBarHiding
 				HiddenPawnTracker = new HiddenPawnTracker();
 			}
 			var result = HiddenPawnTracker.IsHidden(pawn);
-
-			Log.Warning("IsHidden postfix", true);
-			Log.Warning($"{Environment.StackTrace}", true);
-
+			
 			return result;
 		}
 

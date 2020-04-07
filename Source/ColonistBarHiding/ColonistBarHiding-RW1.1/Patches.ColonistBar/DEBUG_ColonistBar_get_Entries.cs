@@ -11,7 +11,7 @@ namespace ColonistBarHiding.Patches.ColonistBar
 {
 	using ColonistBar = RimWorld.ColonistBar;
 
-
+#if DEBUG
 	[HarmonyPatch(typeof(ColonistBar))]
 	[HarmonyPatch(nameof(ColonistBar.Entries), MethodType.Getter)]
 	static class DEBUG_ColonistBar_get_Entries
@@ -22,4 +22,5 @@ namespace ColonistBarHiding.Patches.ColonistBar
 			Log.Warning("get_Entries postfix");
 		}
 	}
+#endif
 }

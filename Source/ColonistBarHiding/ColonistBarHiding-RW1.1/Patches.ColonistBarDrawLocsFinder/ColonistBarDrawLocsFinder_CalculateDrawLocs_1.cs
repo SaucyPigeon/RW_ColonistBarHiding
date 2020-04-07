@@ -23,11 +23,13 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch(new Type[] { typeof(List<Vector2>), typeof(float)}, new[] { ArgumentType.Normal, ArgumentType.Out})]
 	internal class ColonistBarDrawLocsFinder_CalculateDrawLocs_1
 	{
+#if DEBUG
 		[HarmonyPostfix]
 		private static void Postfix()
 		{
 			Log.Message("CalculateDrawLocs (short).Postfix", true);
 		}
+#endif
 
 
 		/*

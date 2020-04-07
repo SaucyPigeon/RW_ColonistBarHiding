@@ -21,8 +21,6 @@ namespace ColonistBarHiding
 		/// <param name="horizontalSlotsPerGroup">The amount of horizontal slots per group.</param>
 		public static void FlattenHorizontalSlots(List<int> entriesInGroup, List<int> horizontalSlotsPerGroup)
 		{
-			Log.Warning("Flattening horizontal slots.");
-
 			var visibleGroups = ColonistBarUtility.GetVisibleGroups(Find.ColonistBar);
 
 			foreach (var visibleGroup in visibleGroups)
@@ -30,8 +28,6 @@ namespace ColonistBarHiding
 				int index = ColonistBarUtility.GetGroupRelativeToVisible(visibleGroup);
 				horizontalSlotsPerGroup[index] = Mathf.Min(horizontalSlotsPerGroup[index], entriesInGroup[visibleGroup]);
 			}
-
-			Log.Warning($"Horizontal slots flattened.");
 		}
 	}
 }

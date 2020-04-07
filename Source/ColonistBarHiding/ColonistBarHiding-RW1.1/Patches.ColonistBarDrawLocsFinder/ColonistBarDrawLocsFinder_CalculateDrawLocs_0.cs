@@ -25,6 +25,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch(new Type[] { typeof(List<Vector2>), typeof(float), typeof(bool), typeof(int) })]
 	internal class ColonistBarDrawLocsFinder_CalculateDrawLocs_0
 	{
+#if DEBUG
 		[HarmonyPrefix]
 		private static void Prefix()
 		{
@@ -44,13 +45,13 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		{
 			Log.Message("CalculateDrawLocs.Postfix", true);
 		}
+#endif
 
 		/*
 		Replace first loop with call to FlattenHorizontalSlots(entriesInGroup, horizontalSlotsPerGroup)
 		Replace first Entries.Count with GetVisibleEntriesFrom(Entries).Count
 		Add condition for second loop: !ColonistBarUtility.IsHidden(entries[i])
 		*/
-		// Need to change this entirely
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator)
 		{

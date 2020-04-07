@@ -18,15 +18,11 @@ namespace ColonistBarHiding
 	{
 		static Loader()
 		{
-			const bool debug = true;
-			Harmony.DEBUG = debug;
-
-			if (debug)
-			{
-				Log.Warning("Colonist Bar Hiding is in debug mode. Please contact the mod author if you see this.");
-
-			}
-
+#if DEBUG
+			Harmony.DEBUG = true;
+			Log.Warning("Colonist Bar Hiding is in debug mode. Please contact the mod author if you see this.");
+#endif
+		
 			// Load harmony
 			const string id = "uk.saucypigeon.rimworld.mod.colonistbarhiding";
 			var harmony = new Harmony(id);
