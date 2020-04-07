@@ -28,7 +28,7 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 		[HarmonyPrefix]
 		private static void Prefix()
 		{
-			Log.Message("CalculateDrawLocs", true);
+			Log.Message("CalculateDrawLocs PREFIX", true);
 			Log.Message($"Entries count: {Find.ColonistBar.Entries.Count}", true);
 			Log.Message($"Visible count: {Find.ColonistBar.Entries.GetVisibleEntriesFrom().Count}", true);
 
@@ -83,10 +83,12 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 
 
 
-			// Last ldloc.s 9
+			// Second-to-last ldloc.s 9
 			CodeInstruction loopStart = instructions
-				.Last(x => x.opcode == OpCodes.Ldloc_S && ((LocalBuilder)x.operand).LocalIndex == 9);
-
+				.Where(x => x.opcode == OpCodes.Ldloc_S && ((LocalBuilder)x.operand).LocalIndex == 9)
+				.Reverse()
+				.Skip(1)
+				.First();
 
 			bool alreadyAdded = false;
 			Label jumpToEnd = ilGenerator.DefineLabel();

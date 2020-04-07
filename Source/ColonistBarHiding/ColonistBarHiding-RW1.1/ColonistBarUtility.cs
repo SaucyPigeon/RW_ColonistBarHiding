@@ -77,7 +77,12 @@ namespace ColonistBarHiding
 			{
 				HiddenPawnTracker = new HiddenPawnTracker();
 			}
-			return HiddenPawnTracker.IsHidden(pawn);
+			var result = HiddenPawnTracker.IsHidden(pawn);
+
+			Log.Warning("IsHidden postfix", true);
+			Log.Warning($"{Environment.StackTrace}", true);
+
+			return result;
 		}
 
 		/// <summary>
@@ -174,16 +179,8 @@ namespace ColonistBarHiding
 		/// <returns>Visible entries from source.</returns>
 		public static List<ColonistBar.Entry> GetVisibleEntriesFrom(this List<ColonistBar.Entry> source)
 		{
-			Log.Warning("Getting visible entries");
-			var r = source.Where(x => !IsHidden(x)).ToList();
-			Log.Warning("Got visible entries");
-
-			Log.Warning("Printing visible entries:");
-			foreach (var e in r)
-			{
-				Log.Warning(e.pawn.Name.ToString());
-			}
-			return r;
+			var result = source.Where(x => !IsHidden(x)).ToList();
+			return result;
 		}
 
 		public static bool ShouldBeVisible(this ColonistBar colonistBar)
