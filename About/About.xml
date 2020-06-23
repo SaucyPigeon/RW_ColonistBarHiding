@@ -24,7 +24,6 @@ Incompatible with:
 
 Special thanks:
 - Proxyer for providing the Japanese translation</description>
-
 	<modDependencies>
 		<li>
 			<packageId>brrainz.harmony</packageId>
@@ -33,5 +32,11 @@ Special thanks:
 			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
 		</li>
 	</modDependencies>
+	<loadAfter>
+		<li>brrainz.harmony</li>
+	</loadAfter>
+	<incompatibleWith>
+		<li>killface.colonistbarkf</li>
+	</incompatibleWith>
 
 </ModMetaData>
