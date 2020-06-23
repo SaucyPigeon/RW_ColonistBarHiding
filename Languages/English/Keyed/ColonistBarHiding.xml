@@ -13,4 +13,6 @@
 	
 	<ColonistBarHiding.NoCurrentGame>The "Edit hidden colonists..." button has been disabled because a game has not been started.</ColonistBarHiding.NoCurrentGame>
 	
+	<ColonistBarHiding.ColonistIsHidden>This colonist is currently hidden from the colonist bar.</ColonistBarHiding.ColonistIsHidden>
+	
 </LanguageData>

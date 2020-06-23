@@ -49,8 +49,8 @@ namespace ColonistBarHiding.UI
 			var pawns = ColonistBarUtility.GetColonistBarPawns();
 			foreach (var pawn in pawns)
 			{
-				var pawnRect = list.GetRect(6f);
-				AddButton(pawnRect, list, pawn, fromColonistBar);
+				var pawnRect = list.GetRect(32f);
+				AddPawnRow(pawnRect, list, pawn, fromColonistBar);
 			}
 
 			if (Event.current.type == EventType.Layout)
@@ -64,8 +64,7 @@ namespace ColonistBarHiding.UI
 			DoBottomButtons(rect, distFromBottom);
 		}
 
-		// TODO: Add pawn icon in menu, next to name
-		private static void AddButton(Rect rect, Listing_Standard list, Pawn pawn, bool fromColonistBar)
+		private static void AddPawnRow(Rect rect, Listing_Standard list, Pawn pawn, bool fromColonistBar)
 		{
 			if (list == null)
 			{
@@ -78,24 +77,49 @@ namespace ColonistBarHiding.UI
 			float truncWidth = rect.width / 2f - 4f;
 			string pawnLabel = pawn.Label.Truncate(truncWidth);
 
+			string buttonLabel;
+			if (ColonistBarUtility.IsHidden(pawn))
+				buttonLabel = "ColonistBarHiding.Restore".Translate();
+			else
+				buttonLabel = "ColonistBarHiding.Remove".Translate();
+			buttonLabel = buttonLabel.Truncate(truncWidth);
+
+			// Position it better
+			//float yLabel = Text.CalcHeight(pawnLabel, rect.width);
+			//Rect labelRect = list.GetRect(yLabel);
+
+			//Widgets.Label(labelRect.LeftHalf(), pawnLabel);
+			var rL = rect.LeftHalf();
+			rL.y += 5f;
+			Widgets.Label(rL, pawnLabel);
+			Rect iconButtonRect = rect.RightHalf();
+			//float iconWidth = 12f;
+
 			if (ColonistBarUtility.IsHidden(pawn))
 			{
-				string buttonLabel = "ColonistBarHiding.Restore".Translate();
-				buttonLabel = buttonLabel.Truncate(truncWidth);
-				if (list.ButtonTextLabeled(pawnLabel, buttonLabel))
+				Rect textureRect = new Rect(iconButtonRect.x, iconButtonRect.y, iconButtonRect.height, iconButtonRect.height);
+				var texture = ContentFinder<Texture2D>.Get("ColonistBarHiding/HiddenIcon", true);
+				Widgets.DrawTextureFitted(textureRect, texture, 1.0f);
+				TooltipHandler.TipRegion(textureRect, () => { return "ColonistBarHiding.ColonistIsHidden".Translate(); }, 585743620);
+			}
+			float spacing = 6f;
+			iconButtonRect.x += iconButtonRect.height + spacing;
+			iconButtonRect.width -= iconButtonRect.height + spacing;
+			if (ColonistBarUtility.IsHidden(pawn))
+			{
+				if (Widgets.ButtonText(iconButtonRect, buttonLabel))
 				{
 					ColonistBarUtility.RestoreColonist(pawn);
 				}
 			}
 			else
 			{
-				string buttonLabel = "ColonistBarHiding.Remove".Translate();
-				buttonLabel = buttonLabel.Truncate(truncWidth);
-				if (list.ButtonTextLabeled(pawnLabel, buttonLabel))
+				if (Widgets.ButtonText(iconButtonRect, buttonLabel))
 				{
 					ColonistBarUtility.RemoveColonist(pawn, fromColonistBar);
 				}
 			}
+			list.Gap();
 		}
 
 		private void DoBottomButtons(Rect rect, float distFromBottom)
