@@ -15,8 +15,24 @@ namespace ColonistBarHiding.Mod
 	/// </summary>
 	public class ColonistBarHidingMod : Mod
 	{
+		private static bool sortColonistBarIsLoaded;
+
+		public static bool SortColonistBarIsLoaded
+		{
+			get
+			{
+				return sortColonistBarIsLoaded;
+			}
+		}
+
+
 		public ColonistBarHidingMod(ModContentPack content) : base(content)
 		{
+			string packageId = "Azelion.SortColonistBar";
+			if (ModLister.GetActiveModWithIdentifier(packageId) != null)
+			{
+				sortColonistBarIsLoaded = true;
+			}
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect)
