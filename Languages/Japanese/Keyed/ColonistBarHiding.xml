@@ -5,6 +5,14 @@
   <ColonistBarHiding.GetSettings>入植者一覧を編集する...</ColonistBarHiding.GetSettings>
   <ColonistBarHiding.Remove>非表示にする</ColonistBarHiding.Remove>
   <ColonistBarHiding.Restore>表示する</ColonistBarHiding.Restore>
-  <ColonistBarHiding.MessageAllEntriesHidden>入植者一覧のすべてのエントリが非表示になりました。このメニューに再びアクセスするには、[オプション]から[Mod設定]を開いて、\n[Colonist Bar Hiding]に移動します。</ColonistBarHiding.MessageAllEntriesHidden>
-  
+  <ColonistBarHiding.MessageAllEntriesHidden>入植者一覧の全エントリが非表示になっています。このメニューに再びアクセスするには、[オプション]から[Mod設定]を開いて、\n[Colonist Bar Hiding]に移動します。</ColonistBarHiding.MessageAllEntriesHidden>
+
+  <ColonistBarHiding.ShowAllColonists>全員を表示</ColonistBarHiding.ShowAllColonists>
+  <ColonistBarHiding.HideAllColonists>全員を非表示</ColonistBarHiding.HideAllColonists>
+  <ColonistBarHiding.Close>閉じる</ColonistBarHiding.Close>
+
+  <ColonistBarHiding.NoCurrentGame>メインメニューからMod設定メニューを開いたため、[非表示の入植者を編集]ボタンが無効になりました。</ColonistBarHiding.NoCurrentGame>
+
+  <ColonistBarHiding.ColonistIsHidden>現在この入植者は、入植者一覧で非表示になっています。</ColonistBarHiding.ColonistIsHidden>
+
 </LanguageData>
