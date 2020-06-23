@@ -23,6 +23,10 @@ namespace ColonistBarHiding.UI
 
 		public override void DoWindowContents(Rect inRect)
 		{
+			if (Current.Game == null)
+			{
+				throw new InvalidOperationException($"Cannot manage colonist bar if there is no current game.");
+			}
 			var rect = inRect.ContractedBy(Margin);
 			// Avoid overlapping with close button
 			const float distFromBottom = 40f;

@@ -11,4 +11,6 @@
 	<ColonistBarHiding.HideAllColonists>Hide all colonists</ColonistBarHiding.HideAllColonists>
 	<ColonistBarHiding.Close>Close</ColonistBarHiding.Close>
 	
+	<ColonistBarHiding.NoCurrentGame>The "Edit hidden colonists..." button has been disabled because a game has not been started.</ColonistBarHiding.NoCurrentGame>
+	
 </LanguageData>

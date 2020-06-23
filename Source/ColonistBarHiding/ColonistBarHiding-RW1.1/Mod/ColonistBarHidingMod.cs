@@ -39,12 +39,19 @@ namespace ColonistBarHiding.Mod
 		{
 			var listingStandard = new Listing_Standard();
 			listingStandard.Begin(inRect);
-			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
-			widgetRow.Gap(4f);
-			if (widgetRow.ButtonText("ColonistBarHiding.GetSettings".Translate(), null, true, false))
+
+			if (Current.Game != null)
 			{
-				Find.WindowStack.Add(new Dialog_ManageColonistBar(false));
+				if (listingStandard.ButtonText("ColonistBarHiding.GetSettings".Translate()))
+				{
+					Find.WindowStack.Add(new Dialog_ManageColonistBar(false));
+				}
 			}
+			else
+			{
+				listingStandard.Label("ColonistBarHiding.NoCurrentGame".Translate());
+			}
+
 			listingStandard.End();
 			base.DoSettingsWindowContents(inRect);
 		}
