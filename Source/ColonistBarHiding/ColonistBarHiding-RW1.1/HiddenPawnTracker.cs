@@ -38,6 +38,10 @@ namespace ColonistBarHiding
 		/// <param name="pawn">The pawn to hide.</param>
 		public void Hide(Pawn pawn)
 		{
+			if (pawn == null)
+			{
+				throw new ArgumentNullException(nameof(pawn), $"Cannot hide a null pawn.");
+			}
 			Pawns.Add(pawn);
 		}
 

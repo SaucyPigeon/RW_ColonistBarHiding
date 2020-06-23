@@ -55,6 +55,9 @@ namespace ColonistBarHiding.UI
 			}
 			list.End();
 			Widgets.EndScrollView();
+
+			// Bottom buttons
+			DoBottomButtons(rect, distFromBottom);
 		}
 
 		// TODO: Add pawn icon in menu, next to name
@@ -91,11 +94,38 @@ namespace ColonistBarHiding.UI
 			}
 		}
 
+		private void DoBottomButtons(Rect rect, float distFromBottom)
+		{
+			// Show all, Hide all, Close
+
+			float heightPer = distFromBottom - 5f;
+			float totalWidth = rect.width;
+			float xGap = 10f;
+			float widthPer = (totalWidth - (3 * xGap)) / 3f;
+
+			Rect buttonRect = new Rect(rect.x, rect.yMax + 10f, widthPer, heightPer);
+
+			if (Widgets.ButtonText(buttonRect, "ColonistBarHiding.ShowAllColonists".Translate()))
+			{
+				ColonistBarUtility.RestoreAllColonists();
+			}
+			buttonRect.x += widthPer + xGap;
+			if (Widgets.ButtonText(buttonRect, "ColonistBarHiding.HideAllColonists".Translate()))
+			{
+				ColonistBarUtility.RemoveAllColonists(fromColonistBar);
+			}
+			buttonRect.x += widthPer + xGap;
+			if (Widgets.ButtonText(buttonRect, "ColonistBarHiding.Close".Translate()))
+			{
+				this.Close();
+			}
+		}
+
 		public Dialog_ManageColonistBar(bool fromColonistBar)
 		{
 			this.forcePause = true;
 			this.doCloseX = true;
-			this.doCloseButton = true;
+			this.doCloseButton = false;
 			this.closeOnClickedOutside = true;
 			this.absorbInputAroundWindow = true;
 			this.fromColonistBar = fromColonistBar;

@@ -27,7 +27,12 @@ namespace ColonistBarHiding
 			var list = new List<Pawn>();
 			foreach (var entry in Find.ColonistBar.Entries)
 			{
-				list.Add(entry.pawn);
+				// Possible to have null pawn entries
+				// (e.g. if there is a map with no pawns on it)
+				if (entry.pawn != null)
+				{
+					list.Add(entry.pawn);
+				}
 			}
 			return list;
 		}
@@ -211,6 +216,28 @@ namespace ColonistBarHiding
 		{
 			var visibleGroups = GetVisibleGroups(Find.ColonistBar);
 			return visibleGroups.IndexOf(group);
+		}
+
+		public static void RestoreAllColonists()
+		{
+			foreach (var pawn in Find.ColonistBar.GetColonistsInOrder())
+			{
+				if (IsHidden(pawn))
+				{
+					RestoreColonist(pawn);
+				}
+			}
+		}
+
+		public static void RemoveAllColonists(bool fromColonistBar)
+		{
+			foreach (var pawn in Find.ColonistBar.GetColonistsInOrder())
+			{
+				if (!IsHidden(pawn))
+				{
+					RemoveColonist(pawn, fromColonistBar);
+				}
+			}
 		}
 	}
 }

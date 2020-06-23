@@ -46,6 +46,10 @@ namespace ColonistBarHiding.Patches.ColonistBar
 		/*
 		Replace Visible to ShouldBeVisible
 		Replace first instance of Entries to GetVisibleEntries
+		
+		Bug: have two maps, one empty of pawns, the other full of pawns. When
+		the map with pawns has all colonists hidden, the colonist bar only shows
+		a rect for the map without pawns. Expected result: both maps are shown.
 		*/
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
