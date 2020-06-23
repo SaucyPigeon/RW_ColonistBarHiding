@@ -37,22 +37,20 @@ namespace ColonistBarHiding.Mod
 
 		public override void DoSettingsWindowContents(Rect inRect)
 		{
-			var listingStandard = new Listing_Standard();
-			listingStandard.Begin(inRect);
+			var rect = inRect.ContractedBy(6f);
 
+			var buttonRect = new Rect(rect.x, rect.y, 200f, 32f);
 			if (Current.Game != null)
 			{
-				if (listingStandard.ButtonText("ColonistBarHiding.GetSettings".Translate()))
+				if (Widgets.ButtonText(buttonRect, "ColonistBarHiding.GetSettings".Translate()))
 				{
 					Find.WindowStack.Add(new Dialog_ManageColonistBar(false));
 				}
 			}
 			else
 			{
-				listingStandard.Label("ColonistBarHiding.NoCurrentGame".Translate());
+				Widgets.Label(rect, "ColonistBarHiding.NoCurrentGame".Translate());
 			}
-
-			listingStandard.End();
 			base.DoSettingsWindowContents(inRect);
 		}
 
