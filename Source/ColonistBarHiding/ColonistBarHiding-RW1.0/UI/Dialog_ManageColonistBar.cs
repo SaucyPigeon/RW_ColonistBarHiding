@@ -46,6 +46,10 @@ namespace ColonistBarHiding.UI
 			foreach (var pawn in pawns)
 			{
 				var pawnRect = list.GetRect(6f);
+				if (pawn == null)
+				{
+					continue;
+				}
 				AddButton(pawnRect, list, pawn, fromColonistBar);
 			}
 
