@@ -11,6 +11,7 @@ using System.Reflection;
 namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 {
 	using ColonistBarDrawLocsFinder = RimWorld.ColonistBarDrawLocsFinder;
+	using ColonistBar = RimWorld.ColonistBar;
 
 	/// <summary>
 	/// Patch for ColonistBarDrawLocsFinder.CalculateDrawLocs(), which gets the
@@ -22,29 +23,25 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch(new Type[] { typeof(List<Vector2>), typeof(float)}, new[] { ArgumentType.Normal, ArgumentType.Out})]
 	internal class ColonistBarDrawLocsFinder_CalculateDrawLocs_1
 	{
-		private static void CalculateDrawLocs(List<Vector2> outDrawLocs, List<int> entriesInGroup, out float scale, ref List<int> horizontalSlotsPerGroup)
+#if DEBUG
+		[HarmonyPostfix]
+		private static void Postfix()
 		{
-			if (!ColonistBarUtility.AnyVisibleEntries())
-			{
-				outDrawLocs.Clear();
-				scale = 1f;
-			}
-			else
-			{
-				entriesInGroup = ColonistBarDrawLocsUtility.GetGroupEntryCounts();
-				scale = ColonistBarDrawLocsUtility.GetBestScale(
-					entriesInGroup,
-					out bool onlyOneRow, out int maxPerGlobalRow, out horizontalSlotsPerGroup);
-				 ColonistBarDrawLocsUtility.GetDrawLocs(scale, onlyOneRow, maxPerGlobalRow, entriesInGroup, horizontalSlotsPerGroup, outDrawLocs);
-			}
+			Log.Message("CalculateDrawLocs (short).Postfix", true);
 		}
+#endif
 
-		[HarmonyPrefix]
-		private static bool Prefix(
-			List<Vector2> outDrawLocs, out float scale, ref List<int> ___entriesInGroup, ref List<int> ___horizontalSlotsPerGroup)
+
+		/*
+		Replace Entries with GetVisibleEntries
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			CalculateDrawLocs(outDrawLocs, ___entriesInGroup, out scale, ref ___horizontalSlotsPerGroup);
-			return false;
+			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
+			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
+
+			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
 		}
 	}
 }

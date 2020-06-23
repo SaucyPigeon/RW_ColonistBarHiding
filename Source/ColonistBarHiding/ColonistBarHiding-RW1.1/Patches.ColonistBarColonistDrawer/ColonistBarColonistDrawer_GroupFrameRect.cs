@@ -19,31 +19,16 @@ namespace ColonistBarHiding.Patches.ColonistBarColonistDrawer
 	[HarmonyPatch("GroupFrameRect")]
 	internal class ColonistBarColonistDrawer_GroupFrameRect
 	{
-		// Modified private method ColonistBarColonistDrawer.GroupFrameRect()
-		private static Rect GroupFrameRect(int group)
+		/*
+		Replace Entries with GetVisibleEntries
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			float num = 99999f;
-			float num2 = 0f;
-			float num3 = 0f;
-			var entries = ColonistBarUtility.GetVisibleEntries();
-			List<Vector2> drawLocs = Find.ColonistBar.DrawLocs;
-			for (int i = 0; i < entries.Count; i++)
-			{
-				if (entries[i].group == group)
-				{
-					num = Mathf.Min(num, drawLocs[i].x);
-					num2 = Mathf.Max(num2, drawLocs[i].x + Find.ColonistBar.Size.x);
-					num3 = Mathf.Max(num3, drawLocs[i].y + Find.ColonistBar.Size.y);
-				}
-			}
-			return new Rect(num, 0f, num2 - num, num3).ContractedBy(-12f * Find.ColonistBar.Scale);
-		}
+			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
+			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
 
-		[HarmonyPrefix]
-		private static bool Prefix(ref Rect __result, int group)
-		{
-			__result = GroupFrameRect(group);
-			return false;
+			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
 		}
 	}
 }

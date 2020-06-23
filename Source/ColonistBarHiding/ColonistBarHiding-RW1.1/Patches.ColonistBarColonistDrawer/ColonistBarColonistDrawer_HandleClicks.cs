@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 using ColonistBarHiding.UI;
+using ColonistBarHiding.Mod;
 
 namespace ColonistBarHiding.Patches.ColonistBarColonistDrawer
 {
@@ -33,6 +34,12 @@ namespace ColonistBarHiding.Patches.ColonistBarColonistDrawer
 		/// <param name="colonist">The colonist on the colonist bar.</param>
 		private static void HandleRightClick(Rect rect, Pawn colonist)
 		{
+			// Do not use this mod's floating menu option if using the mod "Sort
+			// Colonist Bar" by Joris.
+			if (ColonistBarHidingMod.SortColonistBarIsLoaded)
+			{
+				return;
+			}
 			if (eventData.RightMouseButtonReleased() && Mouse.IsOver(rect))
 			{
 				var settings = new FloatMenuOption(

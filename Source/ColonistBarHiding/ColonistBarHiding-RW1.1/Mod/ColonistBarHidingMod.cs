@@ -15,21 +15,42 @@ namespace ColonistBarHiding.Mod
 	/// </summary>
 	public class ColonistBarHidingMod : Mod
 	{
+		private static bool sortColonistBarIsLoaded;
+
+		public static bool SortColonistBarIsLoaded
+		{
+			get
+			{
+				return sortColonistBarIsLoaded;
+			}
+		}
+
+
 		public ColonistBarHidingMod(ModContentPack content) : base(content)
 		{
+			string packageId = "Azelion.SortColonistBar";
+			if (ModLister.GetActiveModWithIdentifier(packageId) != null)
+			{
+				sortColonistBarIsLoaded = true;
+			}
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect)
 		{
-			var listingStandard = new Listing_Standard();
-			listingStandard.Begin(inRect);
-			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
-			widgetRow.Gap(4f);
-			if (widgetRow.ButtonText("ColonistBarHiding.GetSettings".Translate(), null, true, false))
+			var rect = inRect.ContractedBy(6f);
+
+			var buttonRect = new Rect(rect.x, rect.y, 200f, 32f);
+			if (Current.Game != null)
 			{
-				Find.WindowStack.Add(new Dialog_ManageColonistBar(false));
+				if (Widgets.ButtonText(buttonRect, "ColonistBarHiding.GetSettings".Translate()))
+				{
+					Find.WindowStack.Add(new Dialog_ManageColonistBar(false));
+				}
 			}
-			listingStandard.End();
+			else
+			{
+				Widgets.Label(rect, "ColonistBarHiding.NoCurrentGame".Translate());
+			}
 			base.DoSettingsWindowContents(inRect);
 		}
 

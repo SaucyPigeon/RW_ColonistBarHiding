@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using HarmonyLib;
-using Verse;
 using RimWorld;
-using UnityEngine;
+using Verse;
+using System.Reflection.Emit;
 
 namespace ColonistBarHiding.Patches.ColonistBar
 {
 	using ColonistBar = RimWorld.ColonistBar;
 
-	/// <summary>
-	/// Patch for ColonistBar.TryGetEntryAt(), which tries to get a colonist
-	/// bar entry at a given position. This patch accounts for hidden
-	/// colonists.
-	/// </summary>
 	[HarmonyPatch(typeof(ColonistBar))]
-	[HarmonyPatch("TryGetEntryAt")]
-	internal class ColonistBar_TryGetEntryAt
+	[HarmonyPatch("ShowGroupFrames", MethodType.Getter)]
+	public static class ColonistBar_ShowGroupFrames
 	{
 		/*
 		Replace Entries with GetVisibleEntries
@@ -27,7 +23,7 @@ namespace ColonistBarHiding.Patches.ColonistBar
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
 			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
-			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
+			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar)});
 
 			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
 		}

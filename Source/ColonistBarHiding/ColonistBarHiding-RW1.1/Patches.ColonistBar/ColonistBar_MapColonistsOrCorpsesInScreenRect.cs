@@ -20,33 +20,17 @@ namespace ColonistBarHiding.Patches.ColonistBar
 	[HarmonyPatch("MapColonistsOrCorpsesInScreenRect")]
 	internal class ColonistBar_MapColonistsOrCorpsesInScreenRect
 	{
-		// Modified public method ColonistBar.MapColonistsOrCorpsesInScreenRect()
-		private static List<Thing> MapColonistsOrCorpsesInScreenRect(Rect rect,
-			List<Thing> tmpMapColonistsOrCorpsesInScreenRect)
+		/*
+		Replace Visible to ShouldBeVisible
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			tmpMapColonistsOrCorpsesInScreenRect.Clear();
-			if (!ColonistBarUtility.ShouldBeVisible())
-			{
-				return tmpMapColonistsOrCorpsesInScreenRect;
-			}
-			List<Thing> list = Find.ColonistBar.ColonistsOrCorpsesInScreenRect(rect);
-			for (int i = 0; i < list.Count; i++)
-			{
-				if (list[i].Spawned)
-				{
-					tmpMapColonistsOrCorpsesInScreenRect.Add(list[i]);
-				}
-			}
-			return tmpMapColonistsOrCorpsesInScreenRect;
+			var visibleGetter = AccessTools.PropertyGetter(typeof(ColonistBar), "Visible");
+			var shouldBeVisible = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.ShouldBeVisible), new[] { typeof(ColonistBar) });
+
+			return instructions.MethodReplacer(from: visibleGetter, to: shouldBeVisible);
 		}
 
-		[HarmonyPrefix]
-		private static bool Prefix(ref List<Thing> __result, Rect rect,
-			List<Thing> ___tmpMapColonistsOrCorpsesInScreenRect)
-		{
-			__result = MapColonistsOrCorpsesInScreenRect(rect,
-				___tmpMapColonistsOrCorpsesInScreenRect);
-			return false;
-		}
 	}
 }

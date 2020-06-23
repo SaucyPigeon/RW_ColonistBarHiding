@@ -9,6 +9,7 @@ using RimWorld;
 namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 {
 	using ColonistBarDrawLocsFinder = RimWorld.ColonistBarDrawLocsFinder;
+	using ColonistBar = RimWorld.ColonistBar;
 
 	/// <summary>
 	/// Patch for ColonstBarDrawLocsFinder.CalculateGroupsCount(). This patch
@@ -18,11 +19,24 @@ namespace ColonistBarHiding.Patches.ColonistBarDrawLocsFinder
 	[HarmonyPatch("CalculateGroupsCount")]
 	internal class ColonistBarDrawLocsFinder_CalculateGroupsCount
 	{
-		[HarmonyPrefix]
-		private static bool Prefix(int __result)
+#if DEBUG
+		[HarmonyPostfix]
+		private static void Postfix()
 		{
-			__result = ColonistBarUtility.GetVisibleGroupsCount();
-			return false;
+			Log.Message("CalculateGroupsCount postfix");
+		}
+#endif 
+
+		/*
+		Replace Entries with GetVisibleEntries
+		*/
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var entriesGetter = AccessTools.PropertyGetter(typeof(ColonistBar), nameof(ColonistBar.Entries));
+			var visibleEntries = AccessTools.Method(typeof(ColonistBarUtility), nameof(ColonistBarUtility.GetVisibleEntries), new[] { typeof(ColonistBar) });
+
+			return instructions.MethodReplacer(from: entriesGetter, to: visibleEntries);
 		}
 	}
 }
