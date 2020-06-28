@@ -11,7 +11,7 @@
 	<ColonistBarHiding.HideAllColonists>Hide all colonists</ColonistBarHiding.HideAllColonists>
 	<ColonistBarHiding.Close>Close</ColonistBarHiding.Close>
 	
-	<ColonistBarHiding.NoCurrentGame>The "Edit hidden colonists..." button has been disabled because the mod settings menu has been accessed from the main menu.</ColonistBarHiding.NoCurrentGame>
+	<ColonistBarHiding.NoCurrentGame>The "Edit hidden colonists..." button is disabled because you opened the mod settings menu from the main menu.</ColonistBarHiding.NoCurrentGame>
 	
 	<ColonistBarHiding.ColonistIsHidden>This colonist is currently hidden from the colonist bar.</ColonistBarHiding.ColonistIsHidden>
 	
