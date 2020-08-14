@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ColonistBarHiding</RootNamespace>
-    <AssemblyName>ColonistBarHiding-RW1.1</AssemblyName>
+    <AssemblyName>ColonistBarHiding</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -77,8 +77,11 @@
     </PackageReference>
     <PackageReference Include="Lib.Harmony">
       <Version>2.0.0.8</Version>
-	  <!--<ExcludeAssets>runtime</ExcludeAssets>-->
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "$(SolutionDir)scripts\postbuild.bat" "$(TargetPath)" "..\..\1.2\Assemblies\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ColonistBarHiding</RootNamespace>
-    <AssemblyName>ColonistBarHiding-RW1.0</AssemblyName>
+    <AssemblyName>ColonistBarHiding</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
