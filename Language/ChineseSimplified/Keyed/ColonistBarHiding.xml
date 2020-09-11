@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+	<ColonistBarHiding>Colonist Bar Hiding</ColonistBarHiding>
+	<ColonistBarHiding.GetSettings>选择隐藏殖民者图标</ColonistBarHiding.GetSettings>
+	<ColonistBarHiding.Remove>隐藏</ColonistBarHiding.Remove>
+	<ColonistBarHiding.Restore>展示</ColonistBarHiding.Restore>
+	<ColonistBarHiding.MessageAllEntriesHidden>所有殖民者都被隐藏了，请从 选项->Mod设置->Colonist Bar Hiding 再次访问该菜单</ColonistBarHiding.MessageAllEntriesHidden>
+	
+	<ColonistBarHiding.ShowAllColonists>全部展示</ColonistBarHiding.ShowAllColonists>
+	<ColonistBarHiding.HideAllColonists>全部隐藏</ColonistBarHiding.HideAllColonists>
+	<ColonistBarHiding.Close>关闭</ColonistBarHiding.Close>
+	
+	<ColonistBarHiding.NoCurrentGame>"选择隐藏殖民者图标" 按钮不可用，因为您是在主菜单打开的mod设置.</ColonistBarHiding.NoCurrentGame>
+	
+	<ColonistBarHiding.ColonistIsHidden>该殖民者的图标处于隐藏状态.</ColonistBarHiding.ColonistIsHidden>
+	
+</LanguageData>
