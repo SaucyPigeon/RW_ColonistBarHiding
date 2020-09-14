@@ -24,7 +24,8 @@ Incompatible with:
 - Colonist Bar KF
 
 Special thanks:
-- Proxyer for providing the Japanese translation</description>
+- Proxyer for providing the Japanese translation.
+- Antisodium for providing the Chinese translation.</description>
 	<modDependencies>
 		<li>
 			<packageId>brrainz.harmony</packageId>
