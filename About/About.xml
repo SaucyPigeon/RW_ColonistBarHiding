@@ -9,7 +9,8 @@
 	<li>1.1</li>
 	<li>1.2</li>
   </supportedVersions>
-  <description>Allows you to hide colonists from your colonist bar, decreasing clutter.
+  <description>Allows you to hide individual colonists from your colonist bar, decreasing clutter.
+  
 How it works:
 - Right click on your colonist bar or go into mod settings.
 - Click "Edit hidden colonists...".
